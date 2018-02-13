@@ -78,6 +78,11 @@ h5,h4,h3,h2,h1, nav li a  {
   font-family: "Oswald", "Roboto"!important;
 }
 
+.modal {
+    
+    min-height: 600px;
+}
+
 #buttonHolder {
     
     z-index: 100!important;

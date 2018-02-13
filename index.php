@@ -39,7 +39,7 @@
             $('.modal').modal();
             
             // Init form elements
-            $('select').not('disabled').material_select();
+            $('select').material_select();
             
             // Init schedule
             $('.schedule').fullCalendar({
@@ -161,16 +161,16 @@
                   <!-- TIME -->
                   <div class="input-field col s4 grey-text">
 
-                    <label>Select Time</label>
-                    <input type="text" class="timepicker">
+                    <label for="timepicker" >Select Time</label>
+                    <input id="timepicker" name="timepicker" type="text" class="timepicker">
 
                   </div>
 
                   <!-- DATE -->
                   <div class="input-field col s4 grey-text">
 
-                    <label>Select Date</label>
-                    <input type="text" class="datepicker">
+                    <label for="datepicker" >Select Date</label>
+                    <input id="datepicker" name="datepicker" type="text" class="datepicker">
 
                   </div>
 
@@ -211,7 +211,7 @@
                   <!-- MEETINGS -->                
                   <div class="input-field col s8 grey-text">
 
-                    <select multiple id="selectFour" name="meetings">
+                    <select id="selectFour" name="meetings">
                       <option value="" disabled selected>Browse Scheduled Meetings</option>
                       <option value="TODO">TODO</option>
                       <option value="TODO">TODO</option>
@@ -247,7 +247,7 @@
                   <!-- CANCELLATIONS -->                
                   <div class="input-field col s8 grey-text">
 
-                    <select multiple id="selectFive" name="cancellations">
+                    <select id="selectFive" name="cancellations">
                       <option value="" disabled selected>Browse Cancellation Requests</option>
                       <option value="TODO">TODO</option>
                       <option value="TODO">TODO</option>
@@ -288,7 +288,7 @@
           <div class="fixed-action-btn horizontal">
               
             <!-- MENU HOVER BUTTON -->
-            <a class="btn-floating btn-large blue darken-2">
+            <a class="z-depth-3 btn-floating btn-large blue darken-2">
               <i class="large material-icons">mode_edit</i>
             </a>
             
