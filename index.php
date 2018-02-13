@@ -102,7 +102,7 @@
   <div id="add" class="modal modal-fixed-footer">
     <div class="modal-content">
     <div class="row col s12 center">
-      <h4 style="margin-top: 20px; margin-bottom: 20px;">Create a Meeting:</h4>
+      <h4 style="margin-top: 20px; margin-bottom: 25px;">Create a Meeting:</h4>
       <div class="row">
           <form>
               
@@ -152,7 +152,6 @@
 
 
                 <div class="col s2"></div><!--DUMMY-->
-
               </div>
 
                 <!-- TIME & DATE --> 
@@ -200,11 +199,81 @@
   <!-- REMOVE MEETING FORM -->
   <div id="remove" class="modal modal-fixed-footer">
     <div class="modal-content">
-      <h4>Remove Meeting:</h4>
-      <p>A bunch of text</p>
+    <div class="row col s12 center">
+      <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage Meetings:</h4>
+      <div class="row">
+          <form>
+          
+            <!-- MEETINGS ONLY -->     
+              <div class="col s12">
+                <div class="col s2"></div><!--DUMMY-->
+
+                  <!-- MEETINGS -->                
+                  <div class="input-field col s8 grey-text">
+
+                    <select multiple id="selectFour" name="meetings">
+                      <option value="" disabled selected>Browse Scheduled Meetings</option>
+                      <option value="TODO">TODO</option>
+                      <option value="TODO">TODO</option>
+                    </select>
+      
+                  </div>
+
+                <div class="col s2"></div><!--DUMMY-->
+              </div>
+              
+                <!-- SUBMIT BUTTON -->
+                <div class="col s12">
+                    <br>
+                    <button type="submit" role="submit" class="orange darken-1 btn center">
+                        <span class="flow-text">
+                            REMOVE MEETING &nbsp;<i class="fa fa-send"></i>
+                        </span>
+                    </button>
+                </div>
+              
+            </form>
+          
+            <div class="col s2"></div><!--DUMMY-->
+            <div style="margin-top: 50px; margin-bottom: 40px;" class="col s8 divider"></div>  
+            <div class="col s2"></div><!--DUMMY-->
+          
+            <form>
+          
+            <!-- CANCELLATIONS ONLY -->     
+              <div class="col s12">
+                <div class="col s2"></div><!--DUMMY-->
+
+                  <!-- CANCELLATIONS -->                
+                  <div class="input-field col s8 grey-text">
+
+                    <select multiple id="selectFive" name="cancellations">
+                      <option value="" disabled selected>Browse Cancellation Requests</option>
+                      <option value="TODO">TODO</option>
+                      <option value="TODO">TODO</option>
+                    </select>
+      
+                  </div>
+
+                <div class="col s2"></div><!--DUMMY-->
+              </div>
+                
+            <!-- SUBMIT BUTTON -->
+            <div class="col s12">
+                <br>
+                <button type="submit" role="submit" class="orange darken-1 btn center">
+                    <span class="flow-text">
+                        REMOVE CANCELLATION &nbsp;<i class="fa fa-send"></i>
+                    </span>
+                </button>
+            </div>
+          
+            </form>
+        </div>
+        </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">DONE</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
     </div>
   </div>
     
