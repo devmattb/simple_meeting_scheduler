@@ -1,9 +1,98 @@
+/* FORMS CSS */
+.webOrange {
+  transition: 0.2s;
+  background-color: #fb8c00;
+}
+
+.webOrange:hover {
+  background-color: #fb8c00;
+  transform: scale(1.05);
+}
+
+.tabs .tab a{
+    font-size: 16px;
+    color:#999999!important;
+}
+.tabs .tab a:hover,.tabs .tab a.active {
+    background-color:transparent;
+    color:#fb8c00!important;
+}
+.tabs .tab.disabled a,.tabs .tab.disabled a:hover {
+    color:rgba(102,147,153,0.7); /*UNCHANGED*/
+}
+.tabs .indicator {
+    background-color:#fb8c00!important;
+}
+
+.waves-effect.waves-orange .waves-ripple {
+    background-color: #fb8c00;
+}
+
+/* label focus color */
+.input-field input:focus + label {
+color: #fb8c00 !important;
+}
+/* label underline focus color */
+.input-field input:focus {
+border-bottom: 1px solid #fb8c00 !important;
+box-shadow: 0 1px 0 0 #fb8c00 !important
+}
+
+.checkbox-orange[type="checkbox"].filled-in:checked + label:after{
+ border: 2px solid #fb8c00;
+ background-color: #fb8c00;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+ color: #fb8c00!important;
+}
+
+.input-field { color: #fb8c00!important; }
+
+.prefixIcon {
+    position: relative;
+    top: 10px;
+    color:#616161;
+}
+
+ul.dropdown-content.select-dropdown li span  {
+    color: #fb8c00!important;
+}
+
+body p {
+    font-size: 20px!important;
+}
+
+label { font-size: 18px!important;}
+
+/* GENERAL CSS */
+
+p, button, .btn {
+    font-family: "Oswald"!important;
+}
+
+h5,h4,h3,h2,h1, nav li a  {
+  text-transform: capitalize;
+  letter-spacing: 1.5px;
+  font-family: "Oswald", "Roboto"!important;
+}
+
 #buttonHolder {
     
-    z-index: 100;
+    z-index: 100!important;
     position: fixed;
     right: 10px;
     bottom: -200px;
     height: 300px;
 
+}
+
+.hoverableBtn {
+    transition: 0.1s;
+}
+
+.hoverableBtn:hover{
+    transform: scale(1.25)!important;
+    opacity: 0.9!important;
 }
