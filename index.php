@@ -135,18 +135,26 @@
               <div class="col s2"></div><!--DUMMY-->
             </div>
 
-            <!-- PEOPLE ONLY -->
+            <!-- PEOPLE & DATE  -->
               <div class="col s12">
                 <div class="col s2"></div><!--DUMMY-->
 
                   <!-- PEOPLE -->
-                  <div class="input-field col s8 grey-text">
+                  <div class="input-field col s4 grey-text">
 
                     <select multiple id="selectThree" name="people">
                       <option value="" disabled selected>People</option>
                       <option value="TODO">TODO</option>
                       <option value="TODO">TODO</option>
                     </select>
+
+                  </div>
+
+                  <!-- DATE -->
+                  <div class="input-field col s4 grey-text">
+
+                    <label for="datepicker" >Select Date</label>
+                    <input id="datepicker" name="datepicker" type="text" class="datepicker">
 
                   </div>
 
@@ -161,16 +169,16 @@
                   <!-- TIME -->
                   <div class="input-field col s4 grey-text">
 
-                    <label for="timepicker" >Select Time</label>
-                    <input id="timepicker" name="timepicker" type="text" class="timepicker">
+                    <label for="timepicker1" >Select Start Time</label>
+                    <input id="timepicker1" name="timepicker1" type="text" class="timepicker">
 
                   </div>
 
-                  <!-- DATE -->
+                  <!-- TIME -->
                   <div class="input-field col s4 grey-text">
 
-                    <label for="datepicker" >Select Date</label>
-                    <input id="datepicker" name="datepicker" type="text" class="datepicker">
+                    <label for="timepicker2" >Select End Time</label>
+                    <input id="timepicker2" name="timepicker2" type="text" class="timepicker">
 
                   </div>
 
