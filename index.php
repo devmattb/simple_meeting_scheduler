@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
+
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">          <!-- FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">                              <!-- Google Icon Font -->
     <link rel="stylesheet" href="imports/materialize/css/materialize.min.css">                                          <!-- Materialize CSS -->
     <link rel="stylesheet" href="imports/fullcalendar/fullcalendar.css">                                                <!-- FullCalendar CSS -->
-    
+
     <!-- Our General Stylesheet -->
-    <link rel="stylesheet" href="css/general.css">    
-    
+    <link rel="stylesheet" href="css/general.css">
+
     <!-- Our Calendar Stylesheet -->
     <link rel="stylesheet" href="css/calendar.css">
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    
-    <!-- 
+
+    <!--
 
     Import FullCalendar and it's dependencies (jQuery, Momentjs).
 
@@ -30,17 +30,17 @@
     <script src="imports/fullcalendar/fullcalendar.js"></script>   <!-- FullCalendar -->
     <script src="imports/materialize/js/materialize.min.js"></script> <!-- Materialize JS -->
 
-    
+
     <!-- Initialize FullCalendar -->
     <script>
         $(document).ready(function() {
 
             // Init modals:
             $('.modal').modal();
-            
+
             // Init form elements
             $('select').material_select();
-            
+
             // Init schedule
             $('.schedule').fullCalendar({
 
@@ -64,9 +64,9 @@
               height: 950,
 
                 // TODO: Get events from DB!
-                
+
             });
-            
+
             // Init timepicker
             $('.timepicker').pickatime({
                 default: 'now', // Set default time: 'now', '1:30AM', '16:30'
@@ -79,7 +79,7 @@
                 ampmclickable: true, // make AM PM clickable
                 aftershow: function(){} //Function for after opening timepicker
             });
-            
+
             // Init datepicker:
             $('.datepicker').pickadate({
               selectMonths: true, // Creates a dropdown to control month
@@ -90,7 +90,7 @@
               formatSubmit: 'yyyy-mm-dd',
               closeOnSelect: true // Close upon selecting a date,
             });
-            
+
 
         }); // End of document.ready()
     </script>
@@ -105,14 +105,14 @@
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Create a Meeting:</h4>
       <div class="row">
           <form>
-              
-            <!-- ROOMS & FACILITIES --> 
+
+            <!-- ROOMS & FACILITIES -->
             <div class="col s12">
               <div class="col s2"></div><!--DUMMY-->
-                
-              <!-- ROOMS -->                
+
+              <!-- ROOMS -->
               <div class="input-field col s4 grey-text">
-                  
+
                 <select id="selectOne" name="rooms">
                   <option value="" disabled selected>Rooms</option>
                   <option value="TODO">TODO</option>
@@ -120,26 +120,26 @@
                 </select>
 
               </div>
-                
+
               <!-- FACILITIES -->
               <div class="input-field col s4 grey-text">
-                  
+
                 <select id="selectTwo" name="facilities">
                   <option value="" disabled selected>Facilities</option>
                   <option value="TODO">TODO</option>
                   <option value="TODO">TODO</option>
                 </select>
-                  
+
               </div>
-                
+
               <div class="col s2"></div><!--DUMMY-->
             </div>
-          
-            <!-- PEOPLE ONLY -->     
+
+            <!-- PEOPLE ONLY -->
               <div class="col s12">
                 <div class="col s2"></div><!--DUMMY-->
 
-                  <!-- PEOPLE -->                
+                  <!-- PEOPLE -->
                   <div class="input-field col s8 grey-text">
 
                     <select multiple id="selectThree" name="people">
@@ -147,14 +147,14 @@
                       <option value="TODO">TODO</option>
                       <option value="TODO">TODO</option>
                     </select>
-      
+
                   </div>
 
 
                 <div class="col s2"></div><!--DUMMY-->
               </div>
 
-                <!-- TIME & DATE --> 
+                <!-- TIME & DATE -->
                 <div class="col s12">
                   <div class="col s2"></div><!--DUMMY-->
 
@@ -186,7 +186,7 @@
                         </span>
                     </button>
                 </div>
-              
+
             </form>
         </div>
     </div>
@@ -195,7 +195,7 @@
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
     </div>
   </div>
-    
+
   <!-- REMOVE MEETING FORM -->
   <div id="remove" class="modal modal-fixed-footer">
     <div class="modal-content">
@@ -203,12 +203,12 @@
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage Meetings:</h4>
       <div class="row">
           <form>
-          
-            <!-- MEETINGS ONLY -->     
+
+            <!-- MEETINGS ONLY -->
               <div class="col s12">
                 <div class="col s2"></div><!--DUMMY-->
 
-                  <!-- MEETINGS -->                
+                  <!-- MEETINGS -->
                   <div class="input-field col s8 grey-text">
 
                     <select id="selectFour" name="meetings">
@@ -216,12 +216,12 @@
                       <option value="TODO">TODO</option>
                       <option value="TODO">TODO</option>
                     </select>
-      
+
                   </div>
 
                 <div class="col s2"></div><!--DUMMY-->
               </div>
-              
+
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">
                     <br>
@@ -231,20 +231,20 @@
                         </span>
                     </button>
                 </div>
-              
+
             </form>
-          
+
             <div class="col s2"></div><!--DUMMY-->
-            <div style="margin-top: 50px; margin-bottom: 40px;" class="col s8 divider"></div>  
+            <div style="margin-top: 50px; margin-bottom: 40px;" class="col s8 divider"></div>
             <div class="col s2"></div><!--DUMMY-->
-          
+
             <form>
-          
-            <!-- CANCELLATIONS ONLY -->     
+
+            <!-- CANCELLATIONS ONLY -->
               <div class="col s12">
                 <div class="col s2"></div><!--DUMMY-->
 
-                  <!-- CANCELLATIONS -->                
+                  <!-- CANCELLATIONS -->
                   <div class="input-field col s8 grey-text">
 
                     <select id="selectFive" name="cancellations">
@@ -252,12 +252,12 @@
                       <option value="TODO">TODO</option>
                       <option value="TODO">TODO</option>
                     </select>
-      
+
                   </div>
 
                 <div class="col s2"></div><!--DUMMY-->
               </div>
-                
+
             <!-- SUBMIT BUTTON -->
             <div class="col s12">
                 <br>
@@ -267,7 +267,7 @@
                     </span>
                 </button>
             </div>
-          
+
             </form>
         </div>
         </div>
@@ -276,32 +276,32 @@
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
     </div>
   </div>
-    
+
     <!-- MAIN GUI -->
     <div class="row col s12">
-        
+
         <!-- CALENDAR -->
-        <div class="schedule"></div>
-        
+        <div class=" col s10 offset-s1 schedule"></div>
+
         <!-- MENU / BUTTONS -->
         <div id="buttonHolder">
           <div class="fixed-action-btn horizontal">
-              
+
             <!-- MENU HOVER BUTTON -->
             <a class="z-depth-3 btn-floating btn-large blue darken-2">
               <i class="large material-icons">mode_edit</i>
             </a>
-            
+
             <!-- ADD/REMOVE BUTTONS -->
             <ul>
               <li><a id="addBtn" class="hoverableBtn btn-floating green darken-1 modal-trigger" href="#add"><i class="material-icons">add</i></a></li>
               <li><a id="removeBtn" class="hoverableBtn btn-floating red darken-1 modal-trigger" href="#remove"><i class="material-icons">remove</i></a></li>
             </ul>
-              
+
           </div>
-            
+
         </div>
-        
+
     </div>
 
 </body>
