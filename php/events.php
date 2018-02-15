@@ -15,7 +15,7 @@
   // Send the query to the database, or send the error info if the query fails...
   $result = $db->query($requete) or die(print_r($db->errorInfo()))
 
-  // Echo out the json encoded array to the webpage...
+  // Echo out the json encoded array to the webpage... (TODO: Make a success page..?)
   echo json_encode($result->fetchAll(PDO::FETCH_ASSOC));
 
 ?>
