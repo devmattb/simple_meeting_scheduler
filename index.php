@@ -62,8 +62,16 @@
               // Enabling list-view.
               listDayFormat: true,
               height: 950,
-
                 // TODO: Get events from DB!
+              events: "http://localhost:8080/php/events.php",
+
+              // // Convert the allDay from string to boolean
+              // eventRender: function(event, element, view) {
+              //  if (event.allDay === 'true') {
+              //   event.allDay = true;
+              //  } else {
+              //   event.allDay = false;
+              //  }
 
             });
 

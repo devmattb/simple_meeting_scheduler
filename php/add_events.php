@@ -9,7 +9,7 @@
   $people = $_POST["people"]; // TODO. Array handling?
 
   // Event options:
-  $title = "Meeting in "+$facility+$room; // Statically set meeting.
+  $title = "Meeting in Building: "+$facility+", Room: "+$room; // Statically set meeting.
   $start = $_POST["startTime"];
   $end = $_POST["endTime"];
   $url = $_POST["url"];
