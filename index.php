@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
+    
+<!-- Imports and other administrative info: -->
 <head>
-
+    <!-- META Tags: -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    
+    <!-- Our PHP Function Library -->
+    <?php  require("php/functions.php"); ?>
+    
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">          <!-- FontAwesome Icons -->
@@ -30,80 +37,12 @@
     <script src="imports/fullcalendar/fullcalendar.js"></script>   <!-- FullCalendar -->
     <script src="imports/materialize/js/materialize.min.js"></script> <!-- Materialize JS -->
 
-
-    <!-- Initialize FullCalendar -->
-    <script>
-        $(document).ready(function() {
-
-            // Init modals:
-            $('.modal').modal();
-
-            // Init form elements
-            $('select').material_select();
-
-            // Init schedule
-            $('.schedule').fullCalendar({
-
-              header: {
-                // Buttons and header text:
-                left: 'agendaDay, agendaWeek, month, list',
-                center: 'title',
-                right: 'prev, today, next'
-
-              },
-              allDayText: 'Deadlines', // Appears on top of the calendar issues.
-              //´Specifying our time ranges.
-              minTime: '06:00:00',
-              maxTime: '22:00:00',
-              editable: false, // Not editable
-              weekends: true, // Include weekends.
-              defaultView: 'agendaWeek',
-              eventStartEditable: false,
-              // Enabling list-view.
-              listDayFormat: true,
-              height: 950,
-                // TODO: Get events from DB!
-              events: "http://localhost:8080/php/events.php",
-
-              // // Convert the allDay from string to boolean
-              // eventRender: function(event, element, view) {
-              //  if (event.allDay === 'true') {
-              //   event.allDay = true;
-              //  } else {
-              //   event.allDay = false;
-              //  }
-
-            });
-
-            // Init timepicker
-            $('.timepicker').pickatime({
-                default: 'now', // Set default time: 'now', '1:30AM', '16:30'
-                fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
-                twelvehour: false, // Use AM/PM or 24-hour format
-                donetext: 'OK', // text for done-button
-                cleartext: 'Clear', // text for clear-button
-                canceltext: 'Cancel', // Text for cancel-button
-                autoclose: false, // automatic close timepicker
-                ampmclickable: true, // make AM PM clickable
-                aftershow: function(){} //Function for after opening timepicker
-            });
-
-            // Init datepicker:
-            $('.datepicker').pickadate({
-              selectMonths: true, // Creates a dropdown to control month
-              selectYears: false, // Creates a dropdown of 15 years to control year,
-              today: 'Today',
-              clear: 'Clear',
-              close: 'DONE',
-              formatSubmit: 'yyyy-mm-dd',
-              closeOnSelect: true // Close upon selecting a date,
-            });
-
-
-        }); // End of document.ready()
-    </script>
+    <!-- Our initialization script. -->
+    <script src="lib/init.js"></script>
 </head>
 
+
+<!-- GUI -->
 <body>
 
   <!-- ADD MEETING FORM -->
@@ -112,48 +51,81 @@
     <div class="row col s12 center">
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Create a Meeting:</h4>
       <div class="row">
-          <form>
+          <form method="post" action="php/add_events.php">
 
-            <!-- ROOMS & FACILITIES -->
+            <!-- PEOPLE & FACILITIES -->
             <div class="col s12">
               <div class="col s2"></div><!--DUMMY-->
+                
+                  <!-- PEOPLE -->
+                  <div class="input-field col s8 grey-text">
 
-              <!-- ROOMS -->
+                    <select multiple id="selectThree" name="people">
+                      <option value="" disabled selected>People</option>
+                    <!-- PHP Display all rooms from our database! -->
+                    <?php
+
+                        $db = getDB(); // Imported from php/functions.php
+
+                        $query = "SELECT * FROM people ORDER BY id";
+
+                        // Generate all our rooms as HTML options:
+                        $data = getContent($db, $query);
+                        foreach($data as $row) { 
+                        
+                    ?>
+                        <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                        <option value=<?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8"); ?> ><?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8")." (".$row["position"].")"; ?></option>
+
+                    <?php
+                        } // End foreach
+                    ?>
+                    </select>
+
+                  </div>
+
+
+              <!-- FACILITIES  REMOVED. WHEN YOU CHOOSE A ROOM, A FACILITY IS CHOSEN TOO!
               <div class="input-field col s4 grey-text">
 
-                <select id="selectOne" name="rooms">
-                  <option value="" disabled selected>Rooms</option>
-                  <option value="TODO">TODO</option>
-                  <option value="TODO">TODO</option>
-                </select>
-
-              </div>
-
-              <!-- FACILITIES -->
-              <div class="input-field col s4 grey-text">
-
-                <select id="selectTwo" name="facilities">
+                <select id="selectTwo" name="facility">
                   <option value="" disabled selected>Facilities</option>
                   <option value="TODO">TODO</option>
                   <option value="TODO">TODO</option>
                 </select>
 
-              </div>
+              </div>-->
 
               <div class="col s2"></div><!--DUMMY-->
             </div>
 
-            <!-- PEOPLE & DATE  -->
+            <!-- ROOMS & DATE  -->
               <div class="col s12">
                 <div class="col s2"></div><!--DUMMY-->
 
-                  <!-- PEOPLE -->
+                  <!-- ROOMS -->
                   <div class="input-field col s4 grey-text">
 
-                    <select multiple id="selectThree" name="people">
-                      <option value="" disabled selected>People</option>
-                      <option value="TODO">TODO</option>
-                      <option value="TODO">TODO</option>
+                    <select id="selectOne" name="room">
+                    <option value="" disabled selected>Rooms</option>
+                        <!-- PHP Display all rooms from our database! -->
+                        <?php
+
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM room ORDER BY id";
+
+                            // Generate all our rooms as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+
+                        ?>
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["name"]; ?> ><?php echo $row["name"]; ?></option>
+
+                        <?php
+                            } // End foreach
+                        ?>
                     </select>
 
                   </div>
@@ -162,7 +134,7 @@
                   <div class="input-field col s4 grey-text">
 
                     <label for="datepicker" >Select Date</label>
-                    <input id="datepicker" name="datepicker" type="text" class="datepicker">
+                    <input id="datepicker" name="date" type="text" class="datepicker">
 
                   </div>
 
@@ -178,7 +150,7 @@
                   <div class="input-field col s4 grey-text">
 
                     <label for="timepicker1" >Select Start Time</label>
-                    <input id="timepicker1" name="timepicker1" type="text" class="timepicker">
+                    <input id="timepicker1" name="startTime" type="text" class="timepicker">
 
                   </div>
 
@@ -186,7 +158,7 @@
                   <div class="input-field col s4 grey-text">
 
                     <label for="timepicker2" >Select End Time</label>
-                    <input id="timepicker2" name="timepicker2" type="text" class="timepicker">
+                    <input id="timepicker2" name="endTime" type="text" class="timepicker">
 
                   </div>
 

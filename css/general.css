@@ -1,3 +1,10 @@
+/**
+*
+*   This file declares the general CSS rules that we would like.
+*   Please note that many CSS rules are imported, from MaterializeCSS, and are not listed here.
+*
+**/
+
 /* FORMS CSS */
 .webOrange {
   transition: 0.2s;

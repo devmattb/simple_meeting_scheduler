@@ -1,12 +1,8 @@
-/***
+/**
 *
-*   Created: 03 December 2017
-*   @author Matt Bergstrom, A.K.A devmattb or Mattias Bergström.
-*   Copyright 2017 Matt Bergstrom
-*   Statement:
-*   None of this code is to be copied or used without my (Matt Bergstrom's) permission.
+*   This file declares the CSS rules for the calendar.
 *
-***/
+**/
 
 /* Date picker styling #4b6cb7 #fb8c00*/
 .picker__date-display {

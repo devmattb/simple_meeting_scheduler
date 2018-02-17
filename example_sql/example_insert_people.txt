@@ -1,0 +1,10 @@
+INSERT INTO people
+    (name, position)
+VALUES
+    ("Vetten Pei", "CEO"),
+    ("Johan StrömDröm", "COO"),
+    ("Mattias Bergström", "CTO"),
+    ("Osten Stigeborn", "HoSD"),
+    ("Paddingtone Almgren", "HoPS"),
+    ("David Fikasson", "HoD"),
+    ("Patrik Pimpdelius", "HoCD");
