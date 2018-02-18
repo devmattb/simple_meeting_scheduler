@@ -14,7 +14,8 @@
     
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">          <!-- FontAwesome Icons -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+       <!-- FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">                              <!-- Google Icon Font -->
     <link rel="stylesheet" href="../imports/materialize/css/materialize.min.css">                                          <!-- Materialize CSS -->
     <link rel="stylesheet" href="../imports/fullcalendar/fullcalendar.css">                                                <!-- FullCalendar CSS -->
@@ -74,6 +75,7 @@
             $data = getContent($db, $query);
             foreach($data as $row) { 
 
+                $meetingID = $row["id"];
                 $date = substr($row["start"],0,10);
                 $startTime = substr($row["start"],11,13);
                 $endTime = substr($row["end"],11,13);
@@ -121,7 +123,7 @@
               <!-- Meeting info: -->
               <div class="notHoverable card webOrange white-text z-depth-4">
                 <div class="card-content">
-                  <p>Meeting ID: </p>
+                  <p>Meeting ID: <?php echo $meetingID;?> </p>
                 </div>
                 <div class="card-tabs">
                   <ul style="overflow:hidden!important;" class="tabs tabs-fixed-width">

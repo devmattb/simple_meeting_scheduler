@@ -6,7 +6,6 @@
 **/
 
 /* PRELOADER */
-
 .preloader-background {
 	display: flex;
 	align-items: center;
@@ -79,6 +78,21 @@ box-shadow: 0 1px 0 0 #fb8c00 !important
     color:#616161;
 }
 
+
+
+/* GENERAL CSS */
+
+.fa-frown, .fa-thumbs-up, .fa-paper-plane {
+    position:relative;
+    top: -2px;
+    font-size: 22px;
+}
+
+.fa-thumbs-up {
+    font-size: 20px;
+    top: -4px;
+}
+
 ul.dropdown-content.select-dropdown li span  {
     color: #fb8c00!important;
 }
@@ -89,7 +103,6 @@ body p {
 
 label { font-size: 18px!important;}
 
-/* GENERAL CSS */
 
 p, button, .btn {
     font-family: "Oswald"!important;

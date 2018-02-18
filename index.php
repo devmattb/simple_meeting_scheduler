@@ -14,7 +14,9 @@
     
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">          <!-- FontAwesome Icons -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+        <!-- FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">                              <!-- Google Icon Font -->
     <link rel="stylesheet" href="imports/materialize/css/materialize.min.css">                                          <!-- Materialize CSS -->
     <link rel="stylesheet" href="imports/fullcalendar/fullcalendar.css">                                                <!-- FullCalendar CSS -->
@@ -224,9 +226,9 @@
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">
                     <br>
-                    <button type="submit" role="submit" class="orange darken-1 btn center">
+                    <button type="submit" role="submit" class="green darken-1 btn center">
                         <span class="flow-text">
-                            ADD MEETING &nbsp;<i class="fa fa-send"></i>
+                            ADD MEETING &nbsp;<i class="far fa-paper-plane"></i>
                         </span>
                     </button>
                 </div>
@@ -250,28 +252,48 @@
 
             <!-- MEETINGS ONLY -->
               <div class="col s12">
-                <div class="col s2"></div><!--DUMMY-->
+                <div class="col s1"></div><!--DUMMY-->
 
                   <!-- MEETINGS -->
-                  <div class="input-field col s8 grey-text">
+                  <div class="input-field col s10 grey-text">
 
                     <select id="selectFour" name="meetings">
                       <option value="" disabled selected>Browse Scheduled Meetings</option>
-                      <option value="TODO">TODO</option>
-                      <option value="TODO">TODO</option>
+                        <!-- PHP Display all meetings from our database! -->
+                        <?php
+
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM meeting ORDER BY id";
+
+                            // Generate all our rooms as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+
+                        ?>
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["id"]; ?> ><?php 
+                                echo substr($row["start"], 0,10).' '
+                                /* TODOOOO .substr($row["start"], 7,8)*/.' to '
+                                .substr($row["end"], -8,-12).' in '.$row["room"]; ?>
+                            </option>
+
+                        <?php
+                            } // End foreach
+                        ?>
                     </select>
 
                   </div>
 
-                <div class="col s2"></div><!--DUMMY-->
+                <div class="col s1"></div><!--DUMMY-->
               </div>
 
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">
                     <br>
-                    <button type="submit" role="submit" class="orange darken-1 btn center">
+                    <button type="submit" role="submit" class="red darken-1 btn center">
                         <span class="flow-text">
-                            REMOVE MEETING &nbsp;<i class="fa fa-send"></i>
+                            REQUEST CANCELLATION &nbsp;<i class="far fa-paper-plane"></i>
                         </span>
                     </button>
                 </div>
@@ -286,10 +308,10 @@
 
             <!-- CANCELLATIONS ONLY -->
               <div class="col s12">
-                <div class="col s2"></div><!--DUMMY-->
+                <div class="col s1"></div><!--DUMMY-->
 
                   <!-- CANCELLATIONS -->
-                  <div class="input-field col s8 grey-text">
+                  <div class="input-field col s10 grey-text">
 
                     <select id="selectFive" name="cancellations">
                       <option value="" disabled selected>Browse Cancellation Requests</option>
@@ -299,15 +321,20 @@
 
                   </div>
 
-                <div class="col s2"></div><!--DUMMY-->
+                <div class="col s1"></div><!--DUMMY-->
               </div>
 
             <!-- SUBMIT BUTTON -->
             <div class="col s12">
                 <br>
-                <button type="submit" role="submit" class="orange darken-1 btn center">
+                <button type="submit" role="submit" class="green darken-1 btn center">
                     <span class="flow-text">
-                        REMOVE CANCELLATION &nbsp;<i class="fa fa-send"></i>
+                        APPROVE &nbsp;<i class="fa fa fa-thumbs-up"></i>
+                    </span>
+                </button>
+                <button type="submit" role="submit" class="red darken-1 btn center">
+                    <span class="flow-text">
+                        DENY &nbsp;<i class="far fa-frown"></i>
                     </span>
                 </button>
             </div>

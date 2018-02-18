@@ -32,6 +32,14 @@
     }
 
     require("functions.php");
+
+    // Check that all values are set:
+    if (!isset($_POST["room"], $_POST["date"], $_POST["startTime"], $_POST["endTime"])) {
+        $_SESSION["error"] = 3; // Some fields were not set.
+        header("Location: http://localhost/simple_meeting_scheduler/");
+        return; 
+    }
+
     // Create all required fields to create a meeting.
     // All Values received dynamically via AJAX.
 
@@ -47,13 +55,21 @@
     $startTime = $_POST["startTime"];
     $endTime = $_POST["endTime"];
 
-    // TODO: Make sure all fields are set! ERRCODE 3
-    // TODO: Make sure the times are selected so that startTime < endTime ERRCODE 4
-
     $HHStart = substr($startTime,0,2);
     $MMStart = substr($startTime,3,5);
     $HHEnd = substr($endTime,0,2);
     $MMEnd = substr($endTime,3,5);
+
+    // Check that the time is set correctly:
+    if ( $HHStart == $HHEnd && $MMStart > $MMEnd ) {
+        $_SESSION["error"] = 4; // Time was set incorrectly!
+        header("Location: http://localhost/simple_meeting_scheduler/");
+        return; 
+    } else if ( $HHStart > $HHEnd ) {
+        $_SESSION["error"] = 4; // Time was set incorrectly!
+        header("Location: http://localhost/simple_meeting_scheduler/");
+        return; 
+    }
 
     // NOTE: The start and end format for a meeting is: "yyyy-mm-dd HH:MM:SS"
     $start = $date." ".$HHStart.":".$MMStart.":00";
@@ -69,8 +85,13 @@
 
     $query = "SELECT * FROM meeting ORDER BY id"; // Select all meetings.
 
-    //TODO: Check first that we aren't in the same room. Then check people...
-    // Check that this date isn't 
+    //TODO: Check people aren't booked.
+
+    /**
+    *
+    *   MEETING COLLISION HANDLER:
+    *
+    **/
     $data = getContent($db, $query);
     foreach($data as $row) { 
         
@@ -114,7 +135,6 @@
                     // Check if there is a Room/People collision too.
                     if ( $row["room"] == $room ) {
                         // ERROR! Prompt the user that the meeting could not be booked.
-                        // TODO: Set a GET Parameter that triggers materialize toast (errormsg)
                         $_SESSION["error"] = 1;
                         header("Location: http://localhost/simple_meeting_scheduler/");
                         return;
