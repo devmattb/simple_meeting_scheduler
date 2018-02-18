@@ -6,8 +6,11 @@
     <!-- META Tags: -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     
-    <!-- Our PHP Function Library -->
-    <?php  require("php/functions.php"); ?>
+    <!-- Our PHP Function Library, And Our Preloader -->
+    <?php  
+        require("php/functions.php"); 
+        include("imports/preloader.html");
+    ?>
     
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
@@ -39,6 +42,59 @@
 
     <!-- Our initialization script. -->
     <script src="lib/init.js"></script>
+    
+    <!-- Error Handling visualization -->
+    <?php
+        // Start the session if it doesn't exist.
+        if(session_id() == '' || !isset($_SESSION)) {
+            // session isn't started
+            session_start();
+        }
+        if ( isset($_SESSION["error"]) ) {
+            if ( $_SESSION["error"] == 0 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Meeting scheduled successfully!', 8000, 'green');
+            });
+        </script>
+    <?php
+            } else if ( $_SESSION["error"] == 1 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Error when scheduling meeting. Room was already booked.', 8000, 'red');
+            });
+        </script>
+    <?php   
+            } else if ( $_SESSION["error"] == 2 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Error when scheduling meeting. Some people were already booked.', 8000, 'red');
+            });
+        </script>
+    <?php
+            } else if ( $_SESSION["error"] == 3 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Error: Some mandatory fields were left empty!', 8000, 'red');
+            });
+        </script>
+    <?php
+            } else if ( $_SESSION["error"] == 4 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Error: The start time was after the end time!', 8000, 'red');
+            });
+        </script>
+    <?php   
+            }
+        }
+        unset($_SESSION["error"]); // Error has been displayed.
+    ?>
 </head>
 
 
@@ -60,7 +116,7 @@
                   <!-- PEOPLE -->
                   <div class="input-field col s8 grey-text">
 
-                    <select multiple id="selectThree" name="people">
+                    <select multiple id="selectThree" name="people[]">
                       <option value="" disabled selected>People</option>
                     <!-- PHP Display all rooms from our database! -->
                     <?php
@@ -75,7 +131,7 @@
                         
                     ?>
                         <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                        <option value=<?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8"); ?> ><?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8")." (".$row["position"].")"; ?></option>
+                        <option value=<?php echo $row["id"]; ?> ><?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8")." (".$row["position"].")"; ?></option>
 
                     <?php
                         } // End foreach

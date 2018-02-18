@@ -1,4 +1,5 @@
 <?php
+
     /**
     *
     *   This file handles form submissions that regard additions of meetings.
@@ -6,17 +7,29 @@
     *   
     *   We use this page when we initialize our calendar, in lib/init.js
     *   
+    *   SESSION VARIABLE ERROR CODES: Add Meeting
+    *   error = 0 -> No errors! Successful insert!
+    *   error = 1 -> Room was already booked at that date and time interval.
+    *   error = 2 -> Some people were already booked at that date and time interval.
+    *   error = 3 -> Some fields were not set when the form was sent.
+    *   error = 4 -> The start time was after the the end time.
+    *
     **/
 
     /**
-    *    TODOS:
+    *
     *   Check that the meeting we're trying to add has the following characteristics:
     *  
     *   - Does not occur in the same time and room as an already existing meeting.
-    *   - Does not inlcude people that are already booked in some other meeting, the same time.
+    *   - Does not include people that are already booked in some other meeting, the same time.
     *   - Add these parameters to the database so that we can calculate the above.
     */
 
+    // Start the session if it doesn't exist.
+    if(session_id() == '' || !isset($_SESSION)) {
+        // session isn't started
+        session_start();
+    }
 
     require("functions.php");
     // Create all required fields to create a meeting.
@@ -26,13 +39,16 @@
     $facility ="";
     // $facility = $_POST["facilty"];   TODO: Choose with Room?
     $room = $_POST["room"];
-    $people = $_POST["people"]; // TODO. Array handling?
+    $people = (string) implode(",",$_POST["people"]); // Turns the array in to a string.
 
     // Event options:
-    $title = $people;
+    $title = $room;
     $date = $_POST["date"];
     $startTime = $_POST["startTime"];
     $endTime = $_POST["endTime"];
+
+    // TODO: Make sure all fields are set! ERRCODE 3
+    // TODO: Make sure the times are selected so that startTime < endTime ERRCODE 4
 
     $HHStart = substr($startTime,0,2);
     $MMStart = substr($startTime,3,5);
@@ -43,23 +59,89 @@
     $start = $date." ".$HHStart.":".$MMStart.":00";
     $end = $date." ".$HHEnd.":".$MMEnd.":00";
 
-
-    $url = "NOT_USED";
     //$desc = $_POST[""]; // TODO Description including list of people attending?
 
     // Connect to database.
-    $db = getDB(); // Imported from php/functions.php
+    $db = getDB(); // Imported from php/functions.php    
+
+    // Create a URL as a permalink to this meetings info. Last ID +1!
+    $meetingID = 1; // This is changed in the foreach loop.
+
+    $query = "SELECT * FROM meeting ORDER BY id"; // Select all meetings.
+
+    //TODO: Check first that we aren't in the same room. Then check people...
+    // Check that this date isn't 
+    $data = getContent($db, $query);
+    foreach($data as $row) { 
+        
+        // If the start date is the same as the date we're trying to schedule now:
+        if ( substr($row["start"],0,10) == $date ) {
+            
+            // Check if the times overlap.
+            $existingMeetingStartHH = (int) substr($row["start"],11,13);
+            $existingMeetingEndHH = (int) substr($row["end"],11,13);
+            
+            $existingMeetingStartMM = (int) substr($row["start"],14,16);
+            $existingMeetingEndMM = (int) substr($row["end"],14,16);
+            
+            if ( $HHEnd != $existingMeetingEndHH && $HHStart != $existingMeetingStartHH )  {
+                // The meetings are scheduled the same day, and the same hour.
+                if ( !( $HHEnd < $existingMeetingStartHH || $HHStart > $existingMeetingEndHH ) ) {        
+                    // The meeting we're trying to schedule is NOT before
+                    // NOR after the compared meeting.
+                    // This means there has been a definite time/date collision.
+                    
+                    // Check if there is a Room/People collision too.
+                    if ( $row["room"] == $room ) {
+                        // ERROR! Prompt the user that the meeting could not be booked.
+                        // TODO: Set a GET Parameter that triggers materialize toast (errormsg)
+                        $_SESSION["error"] = 1;
+                        header("Location: http://localhost/simple_meeting_scheduler/");
+                        return;
+                    }
+
+                    // TODO: Check if the people overlap
+                } 
+                 
+            } else { // The hour interval is equal for atleast one of the compared times.
+                
+                // The meetings are scheduled the same day, the same hour, AND the same minute
+                if ( !( $MMEnd < $existingMeetingStartMM || $MMStart > $existingMeetingEndMM ) ) {        
+                    // The meeting we're trying to schedule is NOT before
+                    // NOR after the compared meeting.
+                    // This means there has been a definite time/date collision.
+                    
+                    // Check if there is a Room/People collision too.
+                    if ( $row["room"] == $room ) {
+                        // ERROR! Prompt the user that the meeting could not be booked.
+                        // TODO: Set a GET Parameter that triggers materialize toast (errormsg)
+                        $_SESSION["error"] = 1;
+                        header("Location: http://localhost/simple_meeting_scheduler/");
+                        return;
+                    }
+
+                    // TODO: Check if the people overlap
+                } 
+            }
+            
+        }
+        
+        $meetingID = ($row["id"]+1); // Set the meeting ID to the last ID+1
+    }
+        
+    $url = "http://localhost/simple_meeting_scheduler/view_meeting?id=".$meetingID;
 
     // Create and execute the sql to insert records:
     // TODO: Do the colons indicate something? Investigate...
-    $sql = "INSERT INTO meeting (title, start, end, url) VALUES (:title, :start, :end, :url)";
+    $sql = "INSERT INTO meeting (title, start, end, url, room, people) VALUES (:title, :start, :end, :url, :room, :people)";
 
     $query = $db->prepare($sql); // Prepare db to execute sql.
 
     // Now execute the sql and replace placeholders with actual values, grabbed in the beginning of this code.
-    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':url'=>$url));
+    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':url'=>$url, ':room'=>$room, ':people'=>$people));
     
     // Redirect when finished. Note that this URL is right now static.
+    $_SESSION["error"] = 0;
     header("Location: http://localhost/simple_meeting_scheduler/");
 
 ?>

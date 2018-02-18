@@ -1,7 +1,7 @@
 INSERT INTO people
     (name, position)
 VALUES
-    ("Vetten Pei", "CEO"),
+    ("Vätten Pei", "CEO"),
     ("Johan StrömDröm", "COO"),
     ("Mattias Bergström", "CTO"),
     ("Osten Stigeborn", "HoSD"),

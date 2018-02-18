@@ -13,7 +13,7 @@
     function getDB() {
         $servername = "localhost";
         $dbName   = 'simple_meeting_scheduler';
-        $port = 8080;
+        $port = 3306;
         $username = "root";
         $password = "";
 
