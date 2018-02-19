@@ -57,7 +57,7 @@
     ?>
         <script>
             $(document).ready(function(){
-               Materialize.toast('Meeting scheduled successfully!', 8000, 'green');
+               Materialize.toast('Success!', 8000, 'green');
             });
         </script>
     <?php
@@ -248,7 +248,7 @@
     <div class="row col s12 center">
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage Meetings:</h4>
       <div class="row">
-          <form>
+          <form method="post" action="php/request_cancellation.php">
 
             <!-- MEETINGS ONLY -->
               <div class="col s12">
@@ -257,7 +257,7 @@
                   <!-- MEETINGS -->
                   <div class="input-field col s10 grey-text">
 
-                    <select id="selectFour" name="meetings">
+                    <select id="selectFour" name="meetingId">
                       <option value="" disabled selected>Browse Scheduled Meetings</option>
                         <!-- PHP Display all meetings from our database! -->
                         <?php
@@ -269,13 +269,17 @@
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
                             foreach($data as $row) { 
-
+                            $startTimeArr = explode(":",substr($row["start"], 11,17));
+                            $endTimeArr = explode(":",substr($row["end"], 11,17));
                         ?>
+                            
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                            <option value=<?php echo $row["id"]; ?> ><?php 
-                                echo substr($row["start"], 0,10).' '
-                                /* TODOOOO .substr($row["start"], 7,8)*/.' to '
-                                .substr($row["end"], -8,-12).' in '.$row["room"]; ?>
+                            <option value=<?php echo $row["id"]; ?>> 
+                                <?php 
+                                    echo substr($row["start"], 0,10).' '
+                                    .$startTimeArr[0].':'.$startTimeArr[1].' to '
+                                    .$endTimeArr[0].':'.$endTimeArr[1].' in '.$row["room"]; 
+                                ?>
                             </option>
 
                         <?php
@@ -313,10 +317,31 @@
                   <!-- CANCELLATIONS -->
                   <div class="input-field col s10 grey-text">
 
-                    <select id="selectFive" name="cancellations">
+                    <select id="selectFive" name="cancellationId">
                       <option value="" disabled selected>Browse Cancellation Requests</option>
-                      <option value="TODO">TODO</option>
-                      <option value="TODO">TODO</option>
+                        <!-- PHP Display all meeting cancellations from our database! -->
+                        <?php
+
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM cancellation ORDER BY id";
+
+                            // Generate all our rooms as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+                        ?>
+                            
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["id"]; ?>> 
+                                <?php 
+                                    echo $row["date"].' '.$row["startTime"].' to '.$row["endTime"].' in '
+                                        .$row["room"]; 
+                                ?>
+                            </option>
+
+                        <?php
+                            } // End foreach
+                        ?>
                     </select>
 
                   </div>
@@ -327,12 +352,12 @@
             <!-- SUBMIT BUTTON -->
             <div class="col s12">
                 <br>
-                <button type="submit" role="submit" class="green darken-1 btn center">
+                <button type="submit" role="submit" name="approve" value="approve" class="green darken-1 btn center">
                     <span class="flow-text">
                         APPROVE &nbsp;<i class="fa fa fa-thumbs-up"></i>
                     </span>
                 </button>
-                <button type="submit" role="submit" class="red darken-1 btn center">
+                <button type="submit" role="submit" name="deny" value="deny" class="red darken-1 btn center">
                     <span class="flow-text">
                         DENY &nbsp;<i class="far fa-frown"></i>
                     </span>
