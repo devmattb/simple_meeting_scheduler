@@ -1,10 +1,10 @@
 INSERT INTO people
-    (name, position)
+    (name, position, teams)
 VALUES
-    ("Vätten Pei", "CEO"),
-    ("Johan StrömDröm", "COO"),
-    ("Mattias Bergström", "CTO"),
-    ("Osten Stigeborn", "HoSD"),
-    ("Paddingtone Almgren", "HoPS"),
-    ("David Fikasson", "HoD"),
-    ("Patrik Pimpdelius", "HoCD");
+    ("Vätten Pei", "CEO", "SQUAAAH"),
+    ("Johan StrömDröm", "COO", "SQUAAAH"),
+    ("Mattias Bergström", "CTO", "SQUAAAH, TRIPODS"),
+    ("Osten Stigeborn", "HoSD", "SQUAAAH"),
+    ("Paddingtone Almgren", "HoPS", "SQUAAAH"),
+    ("David Fikasson", "HoD", "TRIPODS"),
+    ("Patrik Pimpdelius", "HoCD", "TRIPODS");

@@ -15,7 +15,7 @@
     // Connect to database.
     $db = getDB();
     $sql = "";
-    if (isset($_POST['approve'])) {
+    if (isset($_POST['approve'])) { // TODO: NOT WORKING
         // Approve-button was clicked
         $query = "SELECT * FROM cancellation WHERE id=".$cancellationId;
 
@@ -31,7 +31,7 @@
         $sql = "DELETE FROM meeting WHERE id=".$meetingId;     
         
     }
-    else if (isset($_POST['deny'])) {
+    else if (isset($_POST['deny'])) { // TODO: NOT WORKING
         // Deny-button was clicked, set the correct sql command
          $sql = "DELETE FROM cancellation WHERE id=".$cancellationId;
     }

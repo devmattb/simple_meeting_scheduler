@@ -65,6 +65,9 @@
         $facility = ""; // TODO
         $room = "";
         $people = "";   // TODO
+        $badgesString = "";
+        $colorArr = ["blue","green","red","yellow","black","pink", "orange"];
+    
         if ( isset($_GET["id"]) ) {
                   
             $db = getDB(); // Imported from php/functions.php
@@ -82,7 +85,10 @@
                 $room = $row["room"];
                 $people = $row["people"];
 
+                
+
             } // End foreach
+            
             
             $allID = "(".$people.")";
             $query = "SELECT * FROM people WHERE id IN ".$allID;
@@ -91,6 +97,14 @@
             // Generate all our rooms as HTML options:
             $data = getContent($db, $query);
             foreach($data as $row) { 
+                
+                $teams = explode(",",$row["teams"]);
+                $allBadgeString = "";
+                $i =  0;
+                foreach($teams as $team) {
+                    $allBadgeString .= '<span class="new badge '.$colorArr[$i].'" data-badge-caption="'.$team.'"></span>';
+                    $i+=1;
+                }
 
                 $allPeople .= 
                 '
@@ -100,6 +114,7 @@
                   <p> 
                      '.$row["position"].'
                   </p>
+                  <a href="#!" class="secondary-content">'.$allBadgeString.'</a>
                 </li>
                 ';
 

@@ -373,6 +373,161 @@
     </div>
   </div>
 
+  <!-- TEAMS FORM -->
+  <div id="team" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <div class="row col s12 center">
+      <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage Teams:</h4>
+      <div class="row">
+          
+      <div style="margin-top: 10px;" class="row col s12">
+          <form method="post" action="php/remove_team.php">
+
+            <!-- Teams ONLY -->
+              <div class="col s12">
+                <div class="col s2"></div><!--DUMMY-->
+
+                  <!-- Teams -->
+                  <div class="input-field col s8 grey-text">
+
+                    <select id="selectFour" name="teamId">
+                      <option value="" disabled selected>Browse Existing Teams</option>
+                        <!-- PHP Display all meetings from our database! -->
+                        <?php
+
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM team ORDER BY id";
+
+                            // Generate all our rooms as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+                        ?>
+
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["id"]; ?>> 
+                                <?php 
+                                    echo $row["name"];
+                                ?>
+                            </option>
+
+                        <?php
+                            } // End foreach
+                        ?>
+                    </select>
+
+                  </div>
+
+                <div class="col s2"></div><!--DUMMY-->
+              </div>
+            <!-- SUBMIT BUTTON -->
+            <div class="col s12">
+                <br>
+                <button type="submit" role="submit" name="deny" value="deny" class="red darken-1 btn center">
+                    <span class="flow-text">
+                        REMOVE TEAM &nbsp;<i class="far fa-frown"></i>
+                    </span>
+                </button>
+
+            </div>
+            </form>
+        </div>
+          
+        <div style="margin-top: 50px;" class="row col s12">
+            <form method="post" action="php/add_team.php">
+
+                <!-- ADD A TEAM ONLY -->
+                  <div class="col s12">
+                    <div class="col s2"></div><!--DUMMY-->
+
+                      <!-- Team Name -->
+                      <div class="input-field col s8 grey-text">
+                          <input placeholder="Eg. 'Creative'" id="teamName" name="teamName" type="text" class="validate">
+                          <label for="teamName">Team Name</label>
+                      </div>
+
+                    <div class="col s2"></div><!--DUMMY-->
+                  </div>
+                <!-- SUBMIT BUTTON -->
+                <div class="col s12">
+                    <br>
+                    <button type="submit" role="submit" name="approve" value="approve" class="green darken-1 btn center">
+                        <span class="flow-text">
+                            ADD TEAM &nbsp;<i class="fa fa fa-thumbs-up"></i>
+                        </span>
+                    </button>
+                </div>
+                </form>
+          </div>
+          
+        </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
+    </div>
+  </div>
+    
+    
+  <!-- PEOPLE FORM -->
+  <div id="people" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <div class="row col s12 center">
+      <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage People:</h4>
+      <div class="row">
+          <form method="post" action="php/request_cancellation.php">
+
+            <!-- Teams ONLY -->
+              <div class="col s12">
+                <div class="col s2"></div><!--DUMMY-->
+
+                  <!-- Teams -->
+                  <div class="input-field col s8 grey-text">
+
+                    <select id="selectFour" name="meetingId">
+                      <option value="" disabled selected>Browse Scheduled Meetings</option>
+                        <!-- PHP Display all meetings from our database! -->
+                        <?php
+
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM meeting ORDER BY id";
+
+                            // Generate all our rooms as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+                            $startTimeArr = explode(":",substr($row["start"], 11,17));
+                            $endTimeArr = explode(":",substr($row["end"], 11,17));
+                        ?>
+                            
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["id"]; ?>> 
+                                <?php 
+                                    echo substr($row["start"], 0,10).' '
+                                    .$startTimeArr[0].':'.$startTimeArr[1].' to '
+                                    .$endTimeArr[0].':'.$endTimeArr[1].' in '.$row["room"]; 
+                                ?>
+                            </option>
+
+                        <?php
+                            } // End foreach
+                        ?>
+                    </select>
+
+                  </div>
+
+                <div class="col s2"></div><!--DUMMY-->
+              </div>
+
+            </form>
+        </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
+    </div>
+  </div>
+    
     <!-- MAIN GUI -->
     <div class="row col s12">
 
@@ -390,8 +545,25 @@
 
             <!-- ADD/REMOVE BUTTONS -->
             <ul>
-              <li><a id="addBtn" class="hoverableBtn btn-floating green darken-1 modal-trigger" href="#add"><i class="material-icons">add</i></a></li>
-              <li><a id="removeBtn" class="hoverableBtn btn-floating red darken-1 modal-trigger" href="#remove"><i class="material-icons">remove</i></a></li>
+              <li>
+                  <a id="addBtn" class="hoverableBtn btn-floating green darken-2 modal-trigger" href="#add"><i class="material-icons">event_available</i>
+                  </a>
+              </li>
+              <li>
+                  <a id="removeBtn" class="hoverableBtn btn-floating red darken-2 modal-trigger" href="#remove"><i class="material-icons">event_busy</i>
+                  </a>
+              </li>
+              <li>
+                  <a id="team" class="hoverableBtn btn-floating orange darken-2 modal-trigger" href="#team">
+                      <i class="material-icons">group</i>
+                  </a>
+              </li>
+                
+              <li>
+                  <a id="people" class="hoverableBtn btn-floating blue darken-3 modal-trigger" href="#people">
+                      <i class="material-icons">person</i>
+                  </a>
+              </li>
             </ul>
 
           </div>

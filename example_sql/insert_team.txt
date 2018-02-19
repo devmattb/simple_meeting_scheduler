@@ -1,0 +1,5 @@
+INSERT INTO team
+    (name)
+VALUES
+    ("SQUAAAH"),
+    ("TRIPODS");
