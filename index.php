@@ -399,7 +399,7 @@
 
                             $query = "SELECT * FROM team ORDER BY id";
 
-                            // Generate all our rooms as HTML options:
+                            // Generate all our teams as HTML options:
                             $data = getContent($db, $query);
                             foreach($data as $row) { 
                         ?>
@@ -475,51 +475,127 @@
     <div class="row col s12 center">
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage People:</h4>
       <div class="row">
-          <form method="post" action="php/request_cancellation.php">
+          
+          <div class="row col s12">
+              <form method="post" action="php/remove_people.php">
 
-            <!-- Teams ONLY -->
-              <div class="col s12">
-                <div class="col s2"></div><!--DUMMY-->
+                <!-- People  -->
+                  <div class="col s12">
+                    <div class="col s2"></div><!--DUMMY-->
 
-                  <!-- Teams -->
-                  <div class="input-field col s8 grey-text">
+                      <!-- PEOPLE -->
+                      <div class="input-field col s8 grey-text">
 
-                    <select id="selectFour" name="meetingId">
-                      <option value="" disabled selected>Browse Scheduled Meetings</option>
-                        <!-- PHP Display all meetings from our database! -->
+                        <select multiple id="selectThree" name="peopleIds[]">
+                          <option value="" disabled selected>People</option>
+                        <!-- PHP Display all rooms from our database! -->
                         <?php
 
                             $db = getDB(); // Imported from php/functions.php
 
-                            $query = "SELECT * FROM meeting ORDER BY id";
+                            $query = "SELECT * FROM people ORDER BY id";
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
                             foreach($data as $row) { 
-                            $startTimeArr = explode(":",substr($row["start"], 11,17));
-                            $endTimeArr = explode(":",substr($row["end"], 11,17));
+
                         ?>
-                            
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                            <option value=<?php echo $row["id"]; ?>> 
-                                <?php 
-                                    echo substr($row["start"], 0,10).' '
-                                    .$startTimeArr[0].':'.$startTimeArr[1].' to '
-                                    .$endTimeArr[0].':'.$endTimeArr[1].' in '.$row["room"]; 
-                                ?>
-                            </option>
+                            <option value=<?php echo $row["id"]; ?> ><?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8")." (".$row["position"].")"; ?></option>
 
                         <?php
                             } // End foreach
                         ?>
-                    </select>
+                        </select>
 
+                      </div>
+
+                    <div class="col s2"></div><!--DUMMY-->
                   </div>
 
-                <div class="col s2"></div><!--DUMMY-->
-              </div>
+                <!-- SUBMIT BUTTON -->
+                <div class="col s12">
+                    <br>
+                    <button type="submit" role="submit" name="deny" value="deny" class="red darken-1 btn center">
+                        <span class="flow-text">
+                            REMOVE PEOPLE &nbsp;<i class="far fa-frown"></i>
+                        </span>
+                    </button>
 
-            </form>
+                </div>
+
+                </form>
+            </div>
+          
+        <div style="margin-top: 50px;" class="row col s12">
+            <form method="post" action="php/add_person.php">
+
+                <!-- ADD A PERSON ONLY -->
+                  <div class="col s12">
+                    <div class="col s2"></div><!--DUMMY-->
+
+                      <!-- Name -->
+                      <div class="input-field col s4 grey-text">
+                          <input placeholder="Eg. 'Peter Parker'" id="name" name="name" type="text" class="validate">
+                          <label for="name">Full Name</label>
+                      </div>
+                      
+                      <!-- Position -->
+                      <div class="input-field col s4 grey-text">
+                          <input placeholder="Eg. 'CEO'" id="name" name="name" type="text" class="validate">
+                          <label for="name">Position</label>
+                      </div>
+
+                    <div class="col s2"></div><!--DUMMY-->
+                      
+
+                  </div>
+                
+                <div class="col s12">
+                     <div class="col s2"></div><!--DUMMY--> 
+                                            <!-- Team -->
+                      <div class="input-field col s8 grey-text">
+                        <select multiple id="selectFour" name="teamNames[]">
+                          <option value="" disabled selected>Browse Existing Teams</option>
+                            <!-- PHP Display all meetings from our database! -->
+                            <?php
+
+                                $db = getDB(); // Imported from php/functions.php
+
+                                $query = "SELECT * FROM team ORDER BY id";
+
+                                // Generate all our teams as HTML options:
+                                $data = getContent($db, $query);
+                                foreach($data as $row) { 
+                            ?>
+
+                                <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                                <option value=<?php echo $row["name"]; ?>> 
+                                    <?php 
+                                        echo $row["name"];
+                                    ?>
+                                </option>
+
+                            <?php
+                                } // End foreach
+                            ?>
+                        </select>
+                      </div>
+
+                     <div class="col s2"></div><!--DUMMY--> 
+                </div> 
+                <!-- SUBMIT BUTTON -->
+                <div class="col s12">
+                    <br>
+                    <button type="submit" role="submit" name="approve" value="approve" class="green darken-1 btn center">
+                        <span class="flow-text">
+                            ADD PERSON &nbsp;<i class="fa fa fa-thumbs-up"></i>
+                        </span>
+                    </button>
+                </div>
+                </form>
+          </div>
+          
         </div>
         </div>
     </div>

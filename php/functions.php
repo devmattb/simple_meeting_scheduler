@@ -38,4 +38,16 @@
         return $sql->fetchAll();
     }
 
+    /**
+    *   Checks if all arguments are empty.
+    **/
+    function mempty() {
+        foreach(func_get_args() as $arg)
+            if(empty($arg))
+                continue;
+            else
+                return false;
+        return true;
+    }
+
 ?>

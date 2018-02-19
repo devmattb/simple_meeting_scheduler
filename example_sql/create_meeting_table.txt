@@ -7,5 +7,7 @@ CREATE TABLE `meeting` (
   `allDay` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'false',
   `room` varchar(255) COLLATE utf8_bin NOT NULL,
   `people` varchar(255) COLLATE utf8_bin NOT NULL,
+  `bookedBy` varchar(255) COLLATE utf8_bin NOT NULL,
+  `date` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
