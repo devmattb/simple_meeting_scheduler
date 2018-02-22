@@ -11,10 +11,10 @@
 
     require("functions.php");
 
-    $teamId = $_POST["teamId"];
+    $teamId = (string)implode(",",$_POST["teamId"]);
     $db = getDB();
     
-    $sql = "DELETE FROM team WHERE id=".$teamId;
+    $sql = "DELETE FROM team WHERE id IN  (".$teamId.")";
 
     // Execute command:
     $query = $db->prepare($sql);
@@ -22,5 +22,5 @@
 
     // Redirect when finished. Note that this URL is right now static.
     $_SESSION["error"] = 0;
-    header("Location: http://localhost/simple_meeting_scheduler/");
+    header("Location: ".getHomeURL());
 ?>

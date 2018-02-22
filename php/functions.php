@@ -6,6 +6,10 @@
     *   frequently used throughout the application.
     *
     **/
+
+    function getHomeURL(){
+        return "http://localhost/simple_meeting_scheduler/";
+    }
     
     /**
     *   Starts a database connection with some static parameters.

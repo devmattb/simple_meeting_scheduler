@@ -390,7 +390,7 @@
                   <!-- Teams -->
                   <div class="input-field col s8 grey-text">
 
-                    <select id="selectFour" name="teamId">
+                    <select multiple id="selectFour" name="teamId[]">
                       <option value="" disabled selected>Browse Existing Teams</option>
                         <!-- PHP Display all meetings from our database! -->
                         <?php
@@ -556,7 +556,7 @@
                                             <!-- Team -->
                       <div class="input-field col s8 grey-text">
                         <select multiple id="selectFour" name="teamNames[]">
-                          <option value="" disabled selected>Browse Existing Teams</option>
+                          <option value="" disabled selected>Add Person to Teams</option>
                             <!-- PHP Display all meetings from our database! -->
                             <?php
 

@@ -13,7 +13,7 @@
 
     if ( empty($_POST["teamName"]) ) {
         $_SESSION["error"] = 3;
-        header("Location: http://localhost/simple_meeting_scheduler/");
+        header("Location: ".getHomeURL());
         return;
     }
 
@@ -29,5 +29,5 @@
 
     // Redirect when finished. Note that this URL is right now static.
     $_SESSION["error"] = 0;
-    header("Location: http://localhost/simple_meeting_scheduler/");
+    header("Location: ".getHomeURL());
 ?>

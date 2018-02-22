@@ -36,7 +36,7 @@
     // Check that all values are set:
     if (!isset($_POST["room"], $_POST["date"], $_POST["startTime"], $_POST["endTime"])) {
         $_SESSION["error"] = 3; // Some fields were not set.
-        header("Location: http://localhost/simple_meeting_scheduler/");
+        header("Location: ".getHomeURL());
         return; 
     }
 
@@ -63,11 +63,11 @@
     // Check that the time is set correctly:
     if ( $HHStart == $HHEnd && $MMStart > $MMEnd ) {
         $_SESSION["error"] = 4; // Time was set incorrectly!
-        header("Location: http://localhost/simple_meeting_scheduler/");
+        header("Location: ".getHomeURL());
         return; 
     } else if ( $HHStart > $HHEnd ) {
         $_SESSION["error"] = 4; // Time was set incorrectly!
-        header("Location: http://localhost/simple_meeting_scheduler/");
+        header("Location: ".getHomeURL());
         return; 
     }
 
@@ -117,7 +117,7 @@
                         // ERROR! Prompt the user that the meeting could not be booked.
                         // TODO: Set a GET Parameter that triggers materialize toast (errormsg)
                         $_SESSION["error"] = 1;
-                        header("Location: http://localhost/simple_meeting_scheduler/");
+                        header("Location: ".getHomeURL());
                         return;
                     }
 
@@ -136,7 +136,7 @@
                     if ( $row["room"] == $room ) {
                         // ERROR! Prompt the user that the meeting could not be booked.
                         $_SESSION["error"] = 1;
-                        header("Location: http://localhost/simple_meeting_scheduler/");
+                        header("Location: ".getHomeURL());
                         return;
                     }
 
@@ -162,6 +162,6 @@
     
     // Redirect when finished. Note that this URL is right now static.
     $_SESSION["error"] = 0;
-    header("Location: http://localhost/simple_meeting_scheduler/");
+    header("Location: ".getHomeURL());
 
 ?>
