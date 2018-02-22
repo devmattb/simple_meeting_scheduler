@@ -257,7 +257,7 @@
                   <!-- MEETINGS -->
                   <div class="input-field col s10 grey-text">
 
-                    <select id="selectFour" name="meetingId">
+                    <select multiple id="selectFour" name="meetingIds[]">
                       <option value="" disabled selected>Browse Scheduled Meetings</option>
                         <!-- PHP Display all meetings from our database! -->
                         <?php
@@ -297,7 +297,7 @@
                     <br>
                     <button type="submit" role="submit" class="red darken-1 btn center">
                         <span class="flow-text">
-                            REQUEST CANCELLATION &nbsp;<i class="far fa-paper-plane"></i>
+                            REQUEST CANCELLATIONS &nbsp;<i class="far fa-paper-plane"></i>
                         </span>
                     </button>
                 </div>
@@ -308,7 +308,7 @@
             <div style="margin-top: 50px; margin-bottom: 40px;" class="col s8 divider"></div>
             <div class="col s2"></div><!--DUMMY-->
 
-            <form>
+            <form method="post" action="php/cancellations.php">
 
             <!-- CANCELLATIONS ONLY -->
               <div class="col s12">
@@ -317,7 +317,7 @@
                   <!-- CANCELLATIONS -->
                   <div class="input-field col s10 grey-text">
 
-                    <select id="selectFive" name="cancellationId">
+                    <select multiple id="selectFive" name="cancellationIds[]">
                       <option value="" disabled selected>Browse Cancellation Requests</option>
                         <!-- PHP Display all meeting cancellations from our database! -->
                         <?php
