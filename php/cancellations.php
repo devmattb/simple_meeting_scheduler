@@ -25,7 +25,7 @@
             $data = getContent($db, $query);
             foreach($data as $row) { 
 
-                $meetingId = $row["meetingId"];   
+                $meetingId = $row["meeting_id"];   
 
             } // End foreach
 

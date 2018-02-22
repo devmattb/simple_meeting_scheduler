@@ -222,6 +222,44 @@
 
                   <div class="col s2"></div><!--DUMMY-->
                 </div>
+              
+                <!-- Teams ONLY -->
+              <div class="col s12">
+                <div class="col s2"></div><!--DUMMY-->
+
+                  <!-- Teams -->
+                  <div class="input-field col s8 grey-text">
+
+                    <select id="selectFour" name="teamId">
+                      <option value="" disabled selected>Book As Team</option>
+                        <!-- PHP Display all meetings from our database! -->
+                        <?php
+
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM team ORDER BY id";
+
+                            // Generate all our teams as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+                        ?>
+
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["id"]; ?>> 
+                                <?php 
+                                    echo $row["name"];
+                                ?>
+                            </option>
+
+                        <?php
+                            } // End foreach
+                        ?>
+                    </select>
+
+                  </div>
+
+                <div class="col s2"></div><!--DUMMY-->
+              </div>
 
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">

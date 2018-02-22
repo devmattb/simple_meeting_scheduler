@@ -40,12 +40,12 @@
 
         // Create and execute the sql to insert records:
         // TODO: Do the colons indicate something? Investigate...
-        $sql = "INSERT INTO cancellation (meetingId, date, startTime, endTime, room) VALUES (:meetingId, :date, :startTime, :endTime, :room)";
+        $sql = "INSERT INTO cancellation (meeting_id, date, startTime, endTime, room) VALUES (:meeting_id, :date, :startTime, :endTime, :room)";
 
         $query = $db->prepare($sql); // Prepare db to execute sql.
 
         // Now execute the sql and replace placeholders with actual values, grabbed in the beginning of this code.
-        $query->execute(array(':meetingId'=>$meetingId, ':date'=>$date, ':startTime'=>$startTime, ':endTime'=>$endTime, ':room'=>$room));
+        $query->execute(array(':meeting_id'=>$meetingId, ':date'=>$date, ':startTime'=>$startTime, ':endTime'=>$endTime, ':room'=>$room));
     
     }
     // Redirect when finished. Note that this URL is right now static.

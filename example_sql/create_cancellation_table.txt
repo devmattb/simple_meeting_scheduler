@@ -1,9 +1,0 @@
-CREATE TABLE `cancellation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `meetingId` varchar(255) COLLATE utf8_bin NOT NULL,
-  `startTime` varchar(255) COLLATE utf8_bin NOT NULL,
-  `endTime` varchar(255) COLLATE utf8_bin NOT NULL,
-  `date` varchar(255) COLLATE utf8_bin NOT NULL,
-  `room` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;

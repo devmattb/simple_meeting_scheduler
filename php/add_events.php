@@ -40,13 +40,9 @@
         return; 
     }
 
-    // Create all required fields to create a meeting.
-    // All Values received dynamically via AJAX.
-
     // Room options:
-    $facility ="";
-    // $facility = $_POST["facilty"];   TODO: Choose with Room?
     $room = $_POST["room"];
+    $teamId = $_POST["teamId"];
     $people = (string) implode(",",$_POST["people"]); // Turns the array in to a string.
 
     // Event options:
@@ -140,28 +136,44 @@
                         return;
                     }
 
-                    // TODO: Check if the people overlap
+                    // TODO: Check if the people overlap?
                 } 
             }
             
         }
         
-        $meetingID = ($row["id"]+1); // Set the meeting ID to the last ID+1
+        $meetingID = ($row["id"]+1); // Set the meeting ID to the last ID+1 (Makes URL function.)
     }
         
     $url = "http://localhost/simple_meeting_scheduler/view_meeting?id=".$meetingID;
 
+    // Get the facility of the room...
+    $facility = "";
+    $getFacilityQ = "SELECT * FROM room";
+    $data = getContent($db, $getFacilityQ);
+    foreach($data as $row) {
+        if ( $row["name"] == $room) {
+            $facility = $row['facility'];   
+        }
+    }
+
+    $getFacilityQ = "SELECT * FROM facility WHERE id=".$facility;
+    $data = getContent($db, $getFacilityQ);
+    foreach($data as $row) {
+        $facility = $row['name'];   
+    }
+
+
     // Create and execute the sql to insert records:
-    // TODO: Do the colons indicate something? Investigate...
-    $sql = "INSERT INTO meeting (title, start, end, url, room, people) VALUES (:title, :start, :end, :url, :room, :people)";
+    $sql = "INSERT INTO meeting (title, start, end, date, url, room, facility, people_ids, booked_by_team_id) VALUES (:title, :start, :end, :date, :url, :room, :facility, :people_ids, :booked_by_team_id)";
 
     $query = $db->prepare($sql); // Prepare db to execute sql.
 
     // Now execute the sql and replace placeholders with actual values, grabbed in the beginning of this code.
-    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':url'=>$url, ':room'=>$room, ':people'=>$people));
+    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':date'=>$date, ':url'=>$url, ':room'=>$room, ':facility'=>$facility, ':people_ids'=>$people, ':booked_by_team_id'=>$teamId));
     
     // Redirect when finished. Note that this URL is right now static.
     $_SESSION["error"] = 0;
-    header("Location: ".getHomeURL());
+    header("Location: ".getHomeURL()); 
 
 ?>

@@ -83,8 +83,8 @@
                 $startTime = substr($row["start"],11,13);
                 $endTime = substr($row["end"],11,13);
                 $room = $row["room"];
-                $people = $row["people"];
-
+                $people = $row["people_ids"];
+                $facility = $row["facility"];
                 
 
             } // End foreach
@@ -154,7 +154,7 @@
                     End Time: <b><?php echo $endTime ?></b>
                   </div>
                   <div class="black-text" id="test5">
-                    Facility: <b></b><br><br>
+                    Facility: <b><?php echo $facility ?></b><br><br>
                     Room: <b><?php echo $room ?></b>
                   </div>
                   <div class="black-text" id="test6">
