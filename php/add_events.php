@@ -13,6 +13,7 @@
     *   error = 2 -> Some people were already booked at that date and time interval.
     *   error = 3 -> Some fields were not set when the form was sent.
     *   error = 4 -> The start time was after the the end time.
+    *   error = 5 -> User did not belong to the team that he/she was booking for.
     *
     **/
 
@@ -50,6 +51,7 @@
     $date = $_POST["date"];
     $startTime = $_POST["startTime"];
     $endTime = $_POST["endTime"];
+    $userId = $_POST["userId"];
 
     $HHStart = substr($startTime,0,2);
     $MMStart = substr($startTime,3,5);
@@ -67,21 +69,53 @@
         return; 
     }
 
+    // Connect to database.
+    $db = getDB(); // Imported from php/functions.php   
+
+    /**
+    *   Check that this user is a team member of the team he/she is booking for...
+    **/
+
+    $query = "SELECT * FROM team WHERE id=".$teamId; 
+    $data = getContent($db, $query);
+    foreach($data as $row) {
+        $teamName = $row["name"];
+    }
+    
+    $query = "SELECT * FROM people WHERE id=".$userId;
+    $data = getContent($db, $query);
+    foreach($data as $row) {
+        $userTeams = explode(",",$row["teams"]);
+    }
+
+    $userIsInChoosenTeam = false;
+    foreach($userTeams as $team){
+        if ($team == $teamName) {
+            $userIsInChoosenTeam = true;
+        }
+    }
+
+    if (!$userIsInChoosenTeam) {
+        $_SESSION["error"] = 5; // SELECTED USER NOT IN TEAM!
+        header("Location: ".getHomeURL());
+        return; 
+    }
+    /**
+    *   DONE.
+    **/
+
     // NOTE: The start and end format for a meeting is: "yyyy-mm-dd HH:MM:SS"
     $start = $date." ".$HHStart.":".$MMStart.":00";
     $end = $date." ".$HHEnd.":".$MMEnd.":00";
 
     //$desc = $_POST[""]; // TODO Description including list of people attending?
-
-    // Connect to database.
-    $db = getDB(); // Imported from php/functions.php    
+ 
 
     // Create a URL as a permalink to this meetings info. Last ID +1!
     $meetingID = 1; // This is changed in the foreach loop.
 
     $query = "SELECT * FROM meeting ORDER BY id"; // Select all meetings.
 
-    //TODO: Check people aren't booked.
 
     /**
     *
@@ -165,15 +199,17 @@
 
 
     // Create and execute the sql to insert records:
-    $sql = "INSERT INTO meeting (title, start, end, date, url, room, facility, people_ids, booked_by_team_id) VALUES (:title, :start, :end, :date, :url, :room, :facility, :people_ids, :booked_by_team_id)";
+    $sql = "INSERT INTO meeting (title, start, end, date, url, room, facility, people_ids, booked_by_user_id, booked_by_team_id) VALUES (:title, :start, :end, :date, :url, :room, :facility, :people_ids, :booked_by_user_id, :booked_by_team_id)";
 
     $query = $db->prepare($sql); // Prepare db to execute sql.
 
     // Now execute the sql and replace placeholders with actual values, grabbed in the beginning of this code.
-    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':date'=>$date, ':url'=>$url, ':room'=>$room, ':facility'=>$facility, ':people_ids'=>$people, ':booked_by_team_id'=>$teamId));
+    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':date'=>$date, ':url'=>$url, ':room'=>$room, ':facility'=>$facility, ':people_ids'=>$people, ':booked_by_user_id'=>$userId, ':booked_by_team_id'=>$teamId));
     
     // Redirect when finished. Note that this URL is right now static.
     $_SESSION["error"] = 0;
     header("Location: ".getHomeURL()); 
+
+
 
 ?>

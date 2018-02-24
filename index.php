@@ -93,6 +93,14 @@
             });
         </script>
     <?php   
+            } else if ( $_SESSION["error"] == 5 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Error: User did not belong to the team it was booking for!', 12000, 'red');
+            });
+        </script>
+    <?php   
             }
         }
         unset($_SESSION["error"]); // Error has been displayed.
@@ -223,33 +231,56 @@
                   <div class="col s2"></div><!--DUMMY-->
                 </div>
               
-                <!-- Teams ONLY -->
+                <!-- Team & User -->
               <div class="col s12">
+                  
                 <div class="col s2"></div><!--DUMMY-->
+                  
+                  <!-- Users -->
+                  <div class="input-field col s4 grey-text">
 
-                  <!-- Teams -->
-                  <div class="input-field col s8 grey-text">
-
-                    <select id="selectFour" name="teamId">
-                      <option value="" disabled selected>Book As Team</option>
-                        <!-- PHP Display all meetings from our database! -->
+                    <select id="userSelect" name="userId">
+                      <option value="" disabled selected>Book As User</option>
+                         <!-- PHP Display all users from our database! -->
                         <?php
 
                             $db = getDB(); // Imported from php/functions.php
 
-                            $query = "SELECT * FROM team ORDER BY id";
+                            $query = "SELECT * FROM people ORDER BY id";
 
-                            // Generate all our teams as HTML options:
+                            // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
                             foreach($data as $row) { 
-                        ?>
 
+                        ?>
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                            <option value=<?php echo $row["id"]; ?>> 
-                                <?php 
-                                    echo $row["name"];
-                                ?>
-                            </option>
+                            <option value=<?php echo $row["id"]; ?> ><?php echo $row["name"]; ?></option>
+
+                        <?php
+                            } // End foreach
+                        ?>
+                    </select>
+
+                  </div>
+                  
+                <div class="input-field col s4 grey-text">
+                    <!-- When the user responsible for this meeting is set. -->
+                    <!-- Teams -->
+                    <select name="teamId">
+                      <option value="" disabled selected>Book As Team</option>
+                         <!-- PHP Display all teams from our database! -->
+                        <?php
+                            $db = getDB(); // Imported from php/functions.php
+
+                            $query = "SELECT * FROM team ORDER BY id"; //WHERE ID IN=("..")"
+
+                            // Generate all our rooms as HTML options:
+                            $data = getContent($db, $query);
+                            foreach($data as $row) { 
+
+                        ?>
+                            <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                            <option value=<?php echo $row["id"]; ?> ><?php echo $row["name"]; ?></option>
 
                         <?php
                             } // End foreach
@@ -258,6 +289,7 @@
 
                   </div>
 
+                  
                 <div class="col s2"></div><!--DUMMY-->
               </div>
 
@@ -302,7 +334,7 @@
 
                             $db = getDB(); // Imported from php/functions.php
 
-                            $query = "SELECT * FROM meeting ORDER BY id";
+                            $query = "SELECT * FROM meeting WHERE DATEDIFF(date,NOW()) > 0 ORDER BY id";
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
@@ -372,7 +404,7 @@
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
                             <option value=<?php echo $row["id"]; ?>> 
                                 <?php 
-                                    echo $row["date"].' '.$row["startTime"].' to '.$row["endTime"].' in '
+                                    echo $row["date"].' '.$row["start"].' to '.$row["end"].' in '
                                         .$row["room"]; 
                                 ?>
                             </option>
@@ -580,7 +612,7 @@
                       
                       <!-- Position -->
                       <div class="input-field col s4 grey-text">
-                          <input placeholder="Eg. 'CEO'" id="name" name="name" type="text" class="validate">
+                          <input placeholder="Eg. 'CEO'" id="name" name="position" type="text" class="validate">
                           <label for="name">Position</label>
                       </div>
 
@@ -593,7 +625,7 @@
                      <div class="col s2"></div><!--DUMMY--> 
                                             <!-- Team -->
                       <div class="input-field col s8 grey-text">
-                        <select multiple id="selectFour" name="teamNames[]">
+                        <select multiple id="selectFour" name="teams[]">
                           <option value="" disabled selected>Add Person to Teams</option>
                             <!-- PHP Display all meetings from our database! -->
                             <?php

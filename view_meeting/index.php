@@ -85,10 +85,39 @@
                 $room = $row["room"];
                 $people = $row["people_ids"];
                 $facility = $row["facility"];
-                
+                $userId = $row["booked_by_user_id"];
+                $teamId = $row["booked_by_team_id"];
 
             } // End foreach
             
+            /**
+            *   Get the user and team name that are registered to this meeting:
+            **/
+            $query = "SELECT * FROM people WHERE id=".$userId;
+
+            // Generate all our rooms as HTML options:
+            $data = getContent($db, $query);
+            foreach($data as $row) { 
+
+                $user = $row["name"];
+
+            } // End foreach
+            
+            
+            $query = "SELECT * FROM team WHERE id=".$teamId;
+
+            // Generate all our rooms as HTML options:
+            $data = getContent($db, $query);
+            foreach($data as $row) { 
+
+                $team = $row["name"];
+
+            } // End foreach
+            
+            
+            /**
+            *   Done
+            **/
             
             $allID = "(".$people.")";
             $query = "SELECT * FROM people WHERE id IN ".$allID;
@@ -142,22 +171,25 @@
                 </div>
                 <div class="card-tabs">
                   <ul style="overflow:hidden!important;" class="tabs tabs-fixed-width">
-                    <li class="tab"><a href="#test4">WHEN</a></li>
-                    <li class="tab"><a class="active" href="#test5">WHERE</a></li>
-                    <li class="tab"><a href="#test6">WHO</a></li>
+                    <li class="tab"><a href="#when">WHEN</a></li>
+                    <li class="tab"><a class="active" href="#where">WHERE</a></li>
+                    <li class="tab"><a href="#who">WHO</a></li>
                   </ul>
                 </div>
                 <div style="min-height: 150px; max-height: 950px;" class="card-content grey lighten-4">
-                  <div class="black-text" id="test4">
+                  <div class="black-text" id="when">
                     Date: <b><?php echo $date ?></b> <br><br>
                     Start Time: <b><?php echo $startTime ?></b> <br><br>
                     End Time: <b><?php echo $endTime ?></b>
                   </div>
-                  <div class="black-text" id="test5">
+                  <div class="black-text" id="where">
                     Facility: <b><?php echo $facility ?></b><br><br>
                     Room: <b><?php echo $room ?></b>
                   </div>
-                  <div class="black-text" id="test6">
+                  <div class="black-text" id="who">
+                    Booked By User: <b><?php echo $user ?></b><br>
+                    Cost Logged on Team: <b><?php echo $team ?></b><br><br>
+                    <h5>Participants:</h5>
                     <ul class="collection">
                     
                         <?php echo $allPeople ?>
