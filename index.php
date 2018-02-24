@@ -112,7 +112,7 @@
 <body>
 
   <!-- ADD MEETING FORM -->
-  <div id="add" class="modal modal-fixed-footer">
+  <div id="add" style="height: 645px;" class="modal modal-fixed-footer">
     <div class="modal-content">
     <div class="row col s12 center">
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Create a Meeting:</h4>
@@ -292,6 +292,7 @@
                   
                 <div class="col s2"></div><!--DUMMY-->
               </div>
+              
 
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">

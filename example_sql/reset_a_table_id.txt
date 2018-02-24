@@ -5,3 +5,6 @@ ALTER TABLE <tabell_namn> AUTO_INCREMENT = 1;
 Kommentar:
 
 Använd denna om klickfunktionen på olika möten inte verkar fungera. (t.ex.)
+
+
+ALTER TABLE meeting AUTO_INCREMENT = 1;

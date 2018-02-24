@@ -117,6 +117,7 @@ h5,h4,h3,h2,h1, nav li a  {
 .modal {
     
     min-height: 600px;
+    max-height: 800px;
 }
 
 #buttonHolder {

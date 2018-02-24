@@ -54,9 +54,9 @@ CREATE TABLE `cancellation` (
 
 CREATE TABLE `cost_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `team_id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `cost` varchar(255) COLLATE utf8_bin NOT NULL,
-  `date` DATETIME COLLATE utf8_bin NOT NULL,
+  `cost` int(11) NOT NULL,
+  `date` DATE COLLATE utf8_bin NOT NULL,
   `room` varchar(255) COLLATE utf8_bin NOT NULL,
+  `team_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;

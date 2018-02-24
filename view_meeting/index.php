@@ -104,16 +104,11 @@
             } // End foreach
             
             
-            $query = "SELECT * FROM team WHERE id=".$teamId;
+            $query2 = "SELECT * FROM team WHERE id=".((int)$teamId);
 
             // Generate all our rooms as HTML options:
-            $data = getContent($db, $query);
-            foreach($data as $row) { 
-
-                $team = $row["name"];
-
-            } // End foreach
-            
+            $data = getContent($db, $query2);
+            $teamNameToDisplay = $data[0]["name"];
             
             /**
             *   Done
@@ -188,7 +183,7 @@
                   </div>
                   <div class="black-text" id="who">
                     Booked By User: <b><?php echo $user ?></b><br>
-                    Cost Logged on Team: <b><?php echo $team ?></b><br><br>
+                    Cost Logged on Team: <b><?php echo $teamNameToDisplay ?></b><br><br>
                     <h5>Participants:</h5>
                     <ul class="collection">
                     

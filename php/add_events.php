@@ -197,7 +197,34 @@
         $facility = $row['name'];   
     }
 
+    /**
+    *   Calculate and log the cost of this meeting:
+    **/
+    $sDT = new DateTime($start);
+    $eDT = new DateTime($end);
+    $interval = $sDT->diff($eDT); // The time difference between start/end of meeting.
+    $hours = (float)$interval->format('%h');
+    $minutes = (float)$interval->format('%i');
 
+    /**
+    *   Convert facility letter to ASCII -96, making A=1, B=2, etc.
+    *   Use the above as the dollar/hour rate, so multiply by hour+min/60
+    **/
+    $roomCost = (int)ord(strtolower($facility))*($hours+($minutes/60));
+
+    /**
+    *   Insert Cost to Team:
+    **/
+    $sql = "INSERT INTO cost_log (cost,date,room,team_id) VALUES (:cost,:date,:room,:team_id)";
+
+    $query = $db->prepare($sql); // Prepare db to execute sql.
+
+    // Now execute the sql and replace placeholders with actual values, grabbed in the beginning of this code.
+    $query->execute(array(':cost' => $roomCost,':date' => $date,':room' => $room,':team_id' => $teamId));
+
+    /**
+    *   Finally, Insert Meeting:
+    **/
     // Create and execute the sql to insert records:
     $sql = "INSERT INTO meeting (title, start, end, date, url, room, facility, people_ids, booked_by_user_id, booked_by_team_id) VALUES (:title, :start, :end, :date, :url, :room, :facility, :people_ids, :booked_by_user_id, :booked_by_team_id)";
 
