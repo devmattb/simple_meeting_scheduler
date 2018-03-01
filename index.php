@@ -101,9 +101,25 @@
             });
         </script>
     <?php
-            }
+            } else if ( $_SESSION["error"] == 6 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast('Success: Some meetings were deleted directly, since the user requesting the cancellation was the owner of the meeting.' , 15000, 'green');
+            });
+        </script>
+    <?php
+            } else if ( $_SESSION["error"] == 7 ) {
+    ?>
+        <script>
+            $(document).ready(function(){
+               Materialize.toast("WARNING: Some meetings we're not affected by the last action, since the managing user did not book all of the meetings that we're being managed. ", 15000, 'orange');
+            });
+        </script>
+    <?php
         }
-        unset($_SESSION["error"]); // Error has been displayed.
+      }
+      unset($_SESSION["error"]); // Error has been displayed.
     ?>
 </head>
 
@@ -350,9 +366,34 @@
             <!-- MEETINGS ONLY -->
               <div class="col s12">
                 <div class="col s1"></div><!--DUMMY-->
+                <!-- AS USER -->
+                <div class="input-field col s4 grey-text">
 
+                  <select id="userSelect" name="userId">
+                    <option value="" disabled selected>Managing User</option>
+                       <!-- PHP Display all users from our database! -->
+                      <?php
+
+                          $db = getDB(); // Imported from php/functions.php
+
+                          $query = "SELECT * FROM people ORDER BY id";
+
+                          // Generate all our rooms as HTML options:
+                          $data = getContent($db, $query);
+                          foreach($data as $row) {
+
+                      ?>
+                          <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                          <option value=<?php echo $row["id"]; ?> ><?php echo $row["name"]; ?></option>
+
+                      <?php
+                          } // End foreach
+                      ?>
+                  </select>
+
+                </div>
                   <!-- MEETINGS -->
-                  <div class="input-field col s10 grey-text">
+                  <div class="input-field col s6 grey-text">
 
                     <select multiple id="selectFour" name="meetingIds[]">
                       <option value="" disabled selected>Browse Scheduled Meetings</option>
@@ -411,8 +452,35 @@
               <div class="col s12">
                 <div class="col s1"></div><!--DUMMY-->
 
+                <!-- AS USER -->
+                <div class="input-field col s4 grey-text">
+
+                  <select id="userSelect" name="userId">
+                    <option value="" disabled selected>Managing User</option>
+                       <!-- PHP Display all users from our database! -->
+                      <?php
+
+                          $db = getDB(); // Imported from php/functions.php
+
+                          $query = "SELECT * FROM people ORDER BY id";
+
+                          // Generate all our rooms as HTML options:
+                          $data = getContent($db, $query);
+                          foreach($data as $row) {
+
+                      ?>
+                          <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                          <option value=<?php echo $row["id"]; ?> ><?php echo $row["name"]; ?></option>
+
+                      <?php
+                          } // End foreach
+                      ?>
+                  </select>
+
+                </div>
+
                   <!-- CANCELLATIONS -->
-                  <div class="input-field col s10 grey-text">
+                  <div class="input-field col s6 grey-text">
 
                     <select multiple id="selectFive" name="cancellationIds[]">
                       <option value="" disabled selected>Browse Cancellation Requests</option>

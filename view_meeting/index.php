@@ -161,7 +161,6 @@
 
                     $badgeString = '<span class="new badge black" data-badge-caption="'.$company.'"></span>';
 
-
                     $allBusPeeps .=
                     '
                     <li class="collection-item avatar">
