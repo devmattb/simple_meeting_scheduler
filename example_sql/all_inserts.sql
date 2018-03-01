@@ -8,7 +8,7 @@ VALUES
     ("Paddingtone Almgren", "HoPS", "SQUAAAH"),
     ("David Fikasson", "HoD", "TRIPODS"),
     ("Patrik Pimpdelius", "HoCD", "TRIPODS");
-    
+
 INSERT INTO facility
     (name)
 VALUES
@@ -16,8 +16,8 @@ VALUES
     ("F"),
     ("K"),
     ("D"),
-    ("E");    
-    
+    ("E");
+
 INSERT INTO room
     (name, facility)
 VALUES
@@ -31,9 +31,16 @@ VALUES
     ("D055", 4),
     ("E077", 5),
     ("E030", 5);
-    
+
 INSERT INTO team
     (name)
 VALUES
     ("SQUAAAH"),
     ("TRIPODS");
+
+INSERT INTO business_people
+        (name, company, position)
+VALUES
+        ("Don McTrump", "Evil Corp", "CEO"),
+        ("Jeebus Kristi", "Nice Corp", "CEO"),
+        ("Big boy", "Food Corp", "COO");

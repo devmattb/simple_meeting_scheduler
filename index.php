@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-    
+
 <!-- Imports and other administrative info: -->
 <head>
     <!-- META Tags: -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    
+
     <!-- Our PHP Function Library, And Our Preloader -->
-    <?php  
-        require("php/functions.php"); 
+    <?php
+        require("php/functions.php");
         include("imports/preloader.html");
     ?>
-    
+
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -44,7 +44,7 @@
 
     <!-- Our initialization script. -->
     <script src="lib/init.js"></script>
-    
+
     <!-- Error Handling visualization -->
     <?php
         // Start the session if it doesn't exist.
@@ -68,7 +68,7 @@
                Materialize.toast('Error when scheduling meeting. Room was already booked.', 8000, 'red');
             });
         </script>
-    <?php   
+    <?php
             } else if ( $_SESSION["error"] == 2 ) {
     ?>
         <script>
@@ -92,7 +92,7 @@
                Materialize.toast('Error: The start time was after the end time!', 8000, 'red');
             });
         </script>
-    <?php   
+    <?php
             } else if ( $_SESSION["error"] == 5 ) {
     ?>
         <script>
@@ -100,7 +100,7 @@
                Materialize.toast('Error: User did not belong to the team it was booking for!', 12000, 'red');
             });
         </script>
-    <?php   
+    <?php
             }
         }
         unset($_SESSION["error"]); // Error has been displayed.
@@ -122,9 +122,9 @@
             <!-- PEOPLE & FACILITIES -->
             <div class="col s12">
               <div class="col s2"></div><!--DUMMY-->
-                
+
                   <!-- PEOPLE -->
-                  <div class="input-field col s8 grey-text">
+                  <div class="input-field col s4 grey-text">
 
                     <select multiple id="selectThree" name="people[]">
                       <option value="" disabled selected>People</option>
@@ -137,11 +137,37 @@
 
                         // Generate all our rooms as HTML options:
                         $data = getContent($db, $query);
-                        foreach($data as $row) { 
-                        
+                        foreach($data as $row) {
+
                     ?>
                         <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
                         <option value=<?php echo $row["id"]; ?> ><?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8")." (".$row["position"].")"; ?></option>
+
+                    <?php
+                        } // End foreach
+                    ?>
+                    </select>
+
+                  </div>
+                  <!-- Business partners -->
+                  <div class="input-field col s4 grey-text">
+
+                    <select multiple id="selectThree" name="businessPeeps[]">
+                      <option value="" disabled selected>Business Partners</option>
+                    <!-- PHP Display all rooms from our database! -->
+                    <?php
+
+                        $db = getDB(); // Imported from php/functions.php
+
+                        $query = "SELECT * FROM business_people ORDER BY id";
+
+                        // Generate all our rooms as HTML options:
+                        $data = getContent($db, $query);
+                        foreach($data as $row) {
+
+                    ?>
+                        <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
+                        <option value=<?php echo $row["id"]; ?> ><?php echo html_entity_decode($row["name"], ENT_NOQUOTES, "UTF-8")." (".$row["company"].")"; ?></option>
 
                     <?php
                         } // End foreach
@@ -183,7 +209,7 @@
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
 
                         ?>
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
@@ -230,12 +256,12 @@
 
                   <div class="col s2"></div><!--DUMMY-->
                 </div>
-              
+
                 <!-- Team & User -->
               <div class="col s12">
-                  
+
                 <div class="col s2"></div><!--DUMMY-->
-                  
+
                   <!-- Users -->
                   <div class="input-field col s4 grey-text">
 
@@ -250,7 +276,7 @@
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
 
                         ?>
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
@@ -262,7 +288,7 @@
                     </select>
 
                   </div>
-                  
+
                 <div class="input-field col s4 grey-text">
                     <!-- When the user responsible for this meeting is set. -->
                     <!-- Teams -->
@@ -276,7 +302,7 @@
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
 
                         ?>
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
@@ -289,10 +315,10 @@
 
                   </div>
 
-                  
+
                 <div class="col s2"></div><!--DUMMY-->
               </div>
-              
+
 
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">
@@ -339,17 +365,17 @@
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
                             $startTimeArr = explode(":",substr($row["start"], 11,17));
                             $endTimeArr = explode(":",substr($row["end"], 11,17));
                         ?>
-                            
+
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                            <option value=<?php echo $row["id"]; ?>> 
-                                <?php 
+                            <option value=<?php echo $row["id"]; ?>>
+                                <?php
                                     echo substr($row["start"], 0,10).' '
                                     .$startTimeArr[0].':'.$startTimeArr[1].' to '
-                                    .$endTimeArr[0].':'.$endTimeArr[1].' in '.$row["room"]; 
+                                    .$endTimeArr[0].':'.$endTimeArr[1].' in '.$row["room"];
                                 ?>
                             </option>
 
@@ -399,14 +425,14 @@
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
                         ?>
-                            
+
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                            <option value=<?php echo $row["id"]; ?>> 
-                                <?php 
+                            <option value=<?php echo $row["id"]; ?>>
+                                <?php
                                     echo $row["date"].' '.$row["start"].' to '.$row["end"].' in '
-                                        .$row["room"]; 
+                                        .$row["room"];
                                 ?>
                             </option>
 
@@ -450,7 +476,7 @@
     <div class="row col s12 center">
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage Teams:</h4>
       <div class="row">
-          
+
       <div style="margin-top: 10px;" class="row col s12">
           <form method="post" action="php/remove_team.php">
 
@@ -472,12 +498,12 @@
 
                             // Generate all our teams as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
                         ?>
 
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                            <option value=<?php echo $row["id"]; ?>> 
-                                <?php 
+                            <option value=<?php echo $row["id"]; ?>>
+                                <?php
                                     echo $row["name"];
                                 ?>
                             </option>
@@ -503,7 +529,7 @@
             </div>
             </form>
         </div>
-          
+
         <div style="margin-top: 50px;" class="row col s12">
             <form method="post" action="php/add_team.php">
 
@@ -530,7 +556,7 @@
                 </div>
                 </form>
           </div>
-          
+
         </div>
         </div>
     </div>
@@ -538,15 +564,15 @@
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
     </div>
   </div>
-    
-    
+
+
   <!-- PEOPLE FORM -->
   <div id="people" class="modal modal-fixed-footer">
     <div class="modal-content">
     <div class="row col s12 center">
       <h4 style="margin-top: 20px; margin-bottom: 25px;">Manage People:</h4>
       <div class="row">
-          
+
           <div class="row col s12">
               <form method="post" action="php/remove_people.php">
 
@@ -568,7 +594,7 @@
 
                             // Generate all our rooms as HTML options:
                             $data = getContent($db, $query);
-                            foreach($data as $row) { 
+                            foreach($data as $row) {
 
                         ?>
                             <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
@@ -597,7 +623,7 @@
 
                 </form>
             </div>
-          
+
         <div style="margin-top: 50px;" class="row col s12">
             <form method="post" action="php/add_person.php">
 
@@ -610,7 +636,7 @@
                           <input placeholder="Eg. 'Peter Parker'" id="name" name="name" type="text" class="validate">
                           <label for="name">Full Name</label>
                       </div>
-                      
+
                       <!-- Position -->
                       <div class="input-field col s4 grey-text">
                           <input placeholder="Eg. 'CEO'" id="name" name="position" type="text" class="validate">
@@ -618,12 +644,12 @@
                       </div>
 
                     <div class="col s2"></div><!--DUMMY-->
-                      
+
 
                   </div>
-                
+
                 <div class="col s12">
-                     <div class="col s2"></div><!--DUMMY--> 
+                     <div class="col s2"></div><!--DUMMY-->
                                             <!-- Team -->
                       <div class="input-field col s8 grey-text">
                         <select multiple id="selectFour" name="teams[]">
@@ -637,12 +663,12 @@
 
                                 // Generate all our teams as HTML options:
                                 $data = getContent($db, $query);
-                                foreach($data as $row) { 
+                                foreach($data as $row) {
                             ?>
 
                                 <!-- GENERATE THE HTML OPTIONS WITH THE WANTED DATABASE INFO -->
-                                <option value=<?php echo $row["name"]; ?>> 
-                                    <?php 
+                                <option value=<?php echo $row["name"]; ?>>
+                                    <?php
                                         echo $row["name"];
                                     ?>
                                 </option>
@@ -653,8 +679,8 @@
                         </select>
                       </div>
 
-                     <div class="col s2"></div><!--DUMMY--> 
-                </div> 
+                     <div class="col s2"></div><!--DUMMY-->
+                </div>
                 <!-- SUBMIT BUTTON -->
                 <div class="col s12">
                     <br>
@@ -666,7 +692,7 @@
                 </div>
                 </form>
           </div>
-          
+
         </div>
         </div>
     </div>
@@ -674,7 +700,7 @@
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue darken-2">DONE</a>
     </div>
   </div>
-    
+
     <!-- MAIN GUI -->
     <div class="row col s12">
 
@@ -705,7 +731,7 @@
                       <i class="material-icons">group</i>
                   </a>
               </li>
-                
+
               <li>
                   <a id="people" class="hoverableBtn btn-floating blue darken-3 modal-trigger" href="#people">
                       <i class="material-icons">person</i>
