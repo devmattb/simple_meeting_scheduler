@@ -143,11 +143,36 @@
                 ';
 
             } // End foreach
-            
+
             $query = "SELECT cost FROM cost_log WHERE meeting_id=".$_GET["id"];
             $data = getContent($db, $query);
             foreach ($data as $row) {
                 $totalcost = $row["cost"];
+            }
+
+            //generate all the business partners for the meeting
+            $allID2 = "(".$business_people.")";
+            $query = "SELECT * FROM business_people WHERE id IN ".$allID2;
+            $allBusPeeps = "";
+
+            $data = getContent($db, $query);
+            foreach ($data as $row) {
+                    $company = $row["company"];
+
+                    $badgeString = '<span class="new badge black" data-badge-caption="'.$team.'"></span>';
+
+
+                    $allBusPeeps .=
+                    '
+                    <li class="collection-item avatar">
+                      <img src="../img/profile.png" alt="" class="circle">
+                      <span class="title">'.$row["name"].'</span>
+                      <p>
+                         '.$row["position"].'
+                      </p>
+                      <a href="#!" class="secondary-content">'.$badgeString.'</a>
+                    </li>
+                    ';
             }
 
         } else {
