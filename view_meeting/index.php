@@ -143,7 +143,12 @@
                 ';
 
             } // End foreach
-
+            
+            $query = "SELECT cost FROM cost_log WHERE meeting_id=".$_GET["id"];
+            $data = getContent($db, $query);
+            foreach ($data as $row) {
+                $totalcost = $row["cost"];
+            }
 
         } else {
             // We're missing the ID. Redirect to main page.
@@ -184,7 +189,7 @@
                   <div class="black-text" id="who">
                     Booked By User: <b><?php echo $user ?></b><br>
                     Cost Logged on Team: <b><?php echo $teamNameToDisplay ?></b><br><br>
-                    Total cost: <b><?php echo $cost ?></b><br><br>
+                    Total cost: <b><?php echo $totalcost ?></b><br><br>
                     <h5>Participants:</h5>
                     <ul class="collection">
 
