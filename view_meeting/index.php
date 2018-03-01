@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-    
+
 <!-- Imports and other administrative info: -->
 <head>
     <!-- META Tags: -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    
+
     <!-- Our PHP Function Library, And Our Preloader -->
-    <?php  
-        require("../php/functions.php"); 
+    <?php
+        require("../php/functions.php");
         include("../imports/preloader.html");
     ?>
-    
+
     <!-- CSS Stylesheets -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Open+Sans|Oswald|Oleo+Script" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -43,40 +43,40 @@
 
     <!-- Our initialization script. -->
     <script src="lib/init.js"></script>
-    
+
     <script>
 
         $(document).ready(function(){
-                      
+
             // Preloader
             $('.preloader-background').delay(200).fadeOut('slow');
-            $('.preloader-wrapper').delay(200).fadeOut();  
-            
+            $('.preloader-wrapper').delay(200).fadeOut();
+
         });
-    
+
     </script>
-    
+
     <!-- Meeting Info Handling -->
     <?php
-    
-        $date = ""; 
-        $startTime = ""; 
-        $endTime = ""; 
+
+        $date = "";
+        $startTime = "";
+        $endTime = "";
         $facility = ""; // TODO
         $room = "";
         $people = "";   // TODO
         $badgesString = "";
         $colorArr = ["blue","green","red","yellow","black","pink", "orange"];
-    
+
         if ( isset($_GET["id"]) ) {
-                  
+
             $db = getDB(); // Imported from php/functions.php
 
             $query = "SELECT * FROM meeting WHERE id=".$_GET["id"];
 
             // Generate all our rooms as HTML options:
             $data = getContent($db, $query);
-            foreach($data as $row) { 
+            foreach($data as $row) {
 
                 $meetingID = $row["id"];
                 $date = substr($row["start"],0,10);
@@ -89,7 +89,7 @@
                 $teamId = $row["booked_by_team_id"];
 
             } // End foreach
-            
+
             /**
             *   Get the user and team name that are registered to this meeting:
             **/
@@ -97,31 +97,31 @@
 
             // Generate all our rooms as HTML options:
             $data = getContent($db, $query);
-            foreach($data as $row) { 
+            foreach($data as $row) {
 
                 $user = $row["name"];
 
             } // End foreach
-            
-            
+
+
             $query2 = "SELECT * FROM team WHERE id=".((int)$teamId);
 
             // Generate all our rooms as HTML options:
             $data = getContent($db, $query2);
             $teamNameToDisplay = $data[0]["name"];
-            
+
             /**
             *   Done
             **/
-            
+
             $allID = "(".$people.")";
             $query = "SELECT * FROM people WHERE id IN ".$allID;
             $allPeople = "";
-            
+
             // Generate all our rooms as HTML options:
             $data = getContent($db, $query);
-            foreach($data as $row) { 
-                
+            foreach($data as $row) {
+
                 $teams = explode(",",$row["teams"]);
                 $allBadgeString = "";
                 $i =  0;
@@ -130,12 +130,12 @@
                     $i+=1;
                 }
 
-                $allPeople .= 
+                $allPeople .=
                 '
                 <li class="collection-item avatar">
                   <img src="../img/profile.png" alt="" class="circle">
                   <span class="title">'.$row["name"].'</span>
-                  <p> 
+                  <p>
                      '.$row["position"].'
                   </p>
                   <a href="#!" class="secondary-content">'.$allBadgeString.'</a>
@@ -143,9 +143,9 @@
                 ';
 
             } // End foreach
-            
-     
-        } else {  
+
+
+        } else {
             // We're missing the ID. Redirect to main page.
             header("Location: http://localhost/simple_meeting_scheduler/");
         }
@@ -158,7 +158,7 @@
         <div style="margin-top: 100px;" class="col s12">
             <div class="col s3"></div><!--DUMMY-->
             <div class="col s6">
-            
+
               <!-- Meeting info: -->
               <div class="notHoverable card webOrange white-text z-depth-4">
                 <div class="card-content">
@@ -184,18 +184,19 @@
                   <div class="black-text" id="who">
                     Booked By User: <b><?php echo $user ?></b><br>
                     Cost Logged on Team: <b><?php echo $teamNameToDisplay ?></b><br><br>
+                    Total cost: <b><?php echo $cost ?></b><br><br>
                     <h5>Participants:</h5>
                     <ul class="collection">
-                    
+
                         <?php echo $allPeople ?>
-                      
+
                     </ul>
                   </div>
                 </div>
               </div>
              <div style="position: absolute; bottom: 10px; left: 10px;">
-               <div class="col s12 center"> 
-                    <a href="../">    
+               <div class="col s12 center">
+                    <a href="../">
                        <button class="hoverableBtn blue btn-large center waves-effect waves-light">Go Back Home</button>
                     </a>
                 </div>
