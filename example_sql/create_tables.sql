@@ -48,6 +48,7 @@ CREATE TABLE `meeting` (
   `room` varchar(255) COLLATE utf8_bin NOT NULL,
   `facility` varchar(255) COLLATE utf8_bin NOT NULL,
   `people_ids` varchar(255) COLLATE utf8_bin NOT NULL,
+  `business_people_ids` varchar(255) COLLATE utf8_bin NOT NULL,
   `booked_by_user_id` int(11) NOT NULL,
   `booked_by_team_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)

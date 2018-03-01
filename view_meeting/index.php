@@ -84,6 +84,7 @@
                 $endTime = substr($row["end"],11,13);
                 $room = $row["room"];
                 $people = $row["people_ids"];
+                $business_people = $row["business_people_ids"];
                 $facility = $row["facility"];
                 $userId = $row["booked_by_user_id"];
                 $teamId = $row["booked_by_team_id"];
@@ -102,7 +103,6 @@
                 $user = $row["name"];
 
             } // End foreach
-
 
             $query2 = "SELECT * FROM team WHERE id=".((int)$teamId);
 
@@ -159,7 +159,7 @@
             foreach ($data as $row) {
                     $company = $row["company"];
 
-                    $badgeString = '<span class="new badge black" data-badge-caption="'.$team.'"></span>';
+                    $badgeString = '<span class="new badge black" data-badge-caption="'.$company.'"></span>';
 
 
                     $allBusPeeps .=
@@ -219,6 +219,7 @@
                     <ul class="collection">
 
                         <?php echo $allPeople ?>
+                        <?php echo $allBusPeeps ?>
 
                     </ul>
                   </div>

@@ -45,6 +45,7 @@
     $room = $_POST["room"];
     $teamId = $_POST["teamId"];
     $people = (string) implode(",",$_POST["people"]); // Turns the array in to a string.
+    $business_people = (string) implode(",",$_POST["people"]); // Turns the array in to a string.
 
     // Event options:
     $title = $room;
@@ -226,17 +227,15 @@
     *   Finally, Insert Meeting:
     **/
     // Create and execute the sql to insert records:
-    $sql = "INSERT INTO meeting (title, start, end, date, url, room, facility, people_ids, booked_by_user_id, booked_by_team_id) VALUES (:title, :start, :end, :date, :url, :room, :facility, :people_ids, :booked_by_user_id, :booked_by_team_id)";
+    $sql = "INSERT INTO meeting (title, start, end, date, url, room, facility, people_ids, business_people_ids, booked_by_user_id, booked_by_team_id) VALUES (:title, :start, :end, :date, :url, :room, :facility, :people_ids, :business_people_ids, :booked_by_user_id, :booked_by_team_id)";
 
     $query = $db->prepare($sql); // Prepare db to execute sql.
 
     // Now execute the sql and replace placeholders with actual values, grabbed in the beginning of this code.
-    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':date'=>$date, ':url'=>$url, ':room'=>$room, ':facility'=>$facility, ':people_ids'=>$people, ':booked_by_user_id'=>$userId, ':booked_by_team_id'=>$teamId));
+    $query->execute(array(':title'=>$title, ':start'=>$start, ':end'=>$end, ':date'=>$date, ':url'=>$url, ':room'=>$room, ':facility'=>$facility, ':people_ids'=>$people, ':business_people_ids'=>$business_people,':booked_by_user_id'=>$userId, ':booked_by_team_id'=>$teamId));
 
     // Redirect when finished. Note that this URL is right now static.
     $_SESSION["error"] = 0;
     header("Location: ".getHomeURL());
-
-
 
 ?>
