@@ -1,4 +1,4 @@
-<?php 
+<?php
     /**
     *   Removes a given team from our database.
     **/
@@ -11,9 +11,16 @@
 
     require("functions.php");
 
+    // Check that all values are set:
+    if (!isset($_POST["teamId"])) {
+        $_SESSION["error"] = 3; // Some fields were not set.
+        header("Location: ".getHomeURL());
+        return;
+    }
+
     $teamId = (string)implode(",",$_POST["teamId"]);
     $db = getDB();
-    
+
     $sql = "DELETE FROM team WHERE id IN  (".$teamId.")";
 
     // Execute command:

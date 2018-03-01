@@ -35,7 +35,7 @@
     require("functions.php");
 
     // Check that all values are set:
-    if (!isset($_POST["room"], $_POST["date"], $_POST["startTime"], $_POST["endTime"])) {
+    if (!isset($_POST["room"], $_POST["date"], $_POST["startTime"], $_POST["endTime"], $_POST["people"], $_POST["userId"], $_POST["teamId"])) {
         $_SESSION["error"] = 3; // Some fields were not set.
         header("Location: ".getHomeURL());
         return;
@@ -45,7 +45,7 @@
     $room = $_POST["room"];
     $teamId = $_POST["teamId"];
     $people = (string) implode(",",$_POST["people"]); // Turns the array in to a string.
-    $business_people = (string) implode(",",$_POST["people"]); // Turns the array in to a string.
+    $business_people = (string) implode(",",$_POST["businessPeeps"]); // Turns the array in to a string.
 
     // Event options:
     $title = $room;

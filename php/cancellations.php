@@ -8,6 +8,13 @@
 
     require("functions.php");
 
+    // Check that all values are set:
+    if (!isset($_POST["cancellationIds"], $_POST["userId"])) {
+        $_SESSION["error"] = 3; // Some fields were not set.
+        header("Location: ".getHomeURL());
+        return;
+    }
+    
     // Fields:
     $cancellationIdsArr = $_POST["cancellationIds"];
     $userId = $_POST["userId"];
