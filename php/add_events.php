@@ -109,9 +109,6 @@
     $start = $date." ".$HHStart.":".$MMStart.":00";
     $end = $date." ".$HHEnd.":".$MMEnd.":00";
 
-    //$desc = $_POST[""]; // TODO Description including list of people attending?
-
-
     // Create a URL as a permalink to this meetings info. Last ID +1!
     $meetingID = 1; // This is changed in the foreach loop.
 
