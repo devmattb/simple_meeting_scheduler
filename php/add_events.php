@@ -26,6 +26,15 @@
     *   - Add these parameters to the database so that we can calculate the above.
     */
 
+    function sendMeetingCollisionErr() {
+
+      // ERROR! Prompt the user that the meeting could not be booked.
+      $_SESSION["error"] = 1;
+      header("Location: ".getHomeURL());
+      return;
+
+    }
+
     // Start the session if it doesn't exist.
     if(session_id() == '' || !isset($_SESSION)) {
         // session isn't started
@@ -134,7 +143,7 @@
             $existingMeetingEndMM = (int) substr($row["end"],14,16);
 
             if ( $HHEnd != $existingMeetingEndHH && $HHStart != $existingMeetingStartHH )  {
-                // The meetings are scheduled the same day, and the same hour.
+                // The meetings are scheduled the same day, BUT NOT the same hour.
                 if ( !( $HHEnd < $existingMeetingStartHH || $HHStart > $existingMeetingEndHH ) ) {
                     // The meeting we're trying to schedule is NOT before
                     // NOR after the compared meeting.
@@ -142,34 +151,17 @@
 
                     // Check if there is a Room/People collision too.
                     if ( $row["room"] == $room ) {
-                        // ERROR! Prompt the user that the meeting could not be booked.
-                        // TODO: Set a GET Parameter that triggers materialize toast (errormsg)
-                        $_SESSION["error"] = 1;
-                        header("Location: ".getHomeURL());
-                        return;
+                        sendMeetingCollisionErr();
                     }
 
-                    // TODO: Check if the people overlap
                 }
 
-            } else { // The hour interval is equal for atleast one of the compared times.
+            } else { // Both hour intervals is equal for the compared times.
 
-                // The meetings are scheduled the same day, the same hour, AND the same minute
-                if ( !( $MMEnd < $existingMeetingStartMM || $MMStart > $existingMeetingEndMM ) ) {
-                    // The meeting we're trying to schedule is NOT before
-                    // NOR after the compared meeting.
-                    // This means there has been a definite time/date collision.
+              if ( $row["room"] == $room ) {
+                  sendMeetingCollisionErr();
+              }
 
-                    // Check if there is a Room/People collision too.
-                    if ( $row["room"] == $room ) {
-                        // ERROR! Prompt the user that the meeting could not be booked.
-                        $_SESSION["error"] = 1;
-                        header("Location: ".getHomeURL());
-                        return;
-                    }
-
-                    // TODO: Check if the people overlap?
-                }
             }
 
         }
@@ -177,7 +169,7 @@
         $meetingID = ($row["id"]+1); // Set the meeting ID to the last ID+1 (Makes URL function.)
     }
 
-    $url = "http://localhost/simple_meeting_scheduler/view_meeting?id=".$meetingID;
+    $url = getHomeURL()."view_meeting?id=".$meetingID;
 
     // Get the facility of the room...
     $facility = "";

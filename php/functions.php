@@ -8,9 +8,9 @@
     **/
 
     function getHomeURL(){
-        return "http://localhost/simple_meeting_scheduler/";
+        return "http://192.168.64.2/simple_meeting_scheduler/";
     }
-    
+
     /**
     *   Starts a database connection with some static parameters.
     **/
@@ -25,7 +25,7 @@
             $conn = new PDO("mysql:host=$servername;dbname=$dbName;charset=utf8", $username, $password);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conn; 
+            return $conn;
         }
         catch(PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
